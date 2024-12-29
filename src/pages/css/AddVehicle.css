@@ -1,0 +1,29 @@
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
+  }
+  
+  .success-alert {
+    background-color: #28a745; /* Green for success */
+    color: white;
+  }
+  
+  .error-alert {
+    background-color: #dc3545; /* Red for error */
+    color: white;
+  }
+  
+  /* Show the alerts by changing opacity and top */
+  .alert.show {
+    opacity: 1;
+    top: 40px; /* Adjusted to make it float */
+  }
+
+  
