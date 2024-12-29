@@ -9,6 +9,7 @@ const ServiceHistory = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [vehicle, setVehicle] = useState(null);
   const [newService, setNewService] = useState({
@@ -85,17 +86,30 @@ const ServiceHistory = () => {
     navigate(`/service/${serviceId}/edit`);
   };
 
-  const handleDelete = async (serviceId) => {
+  const handleDeleteClick = (serviceId) => {
+    const service = serviceHistory.find(item => item.id === serviceId);
+    setSelectedService(service);
+    setShowDeleteModal(true);
+  };
+  
+  const handleDeleteConfirm = async () => {
     const userToken = localStorage.getItem("userToken");
-    if (window.confirm("Are you sure you want to delete this record?")) {
+    if (selectedService) {
       try {
-        await axios.delete(`http://localhost:8000/api/service-history/${serviceId}`, {
+        // Send the service ID and the vehicle ID in the delete request
+        await axios.delete(`http://localhost:8000/api/service-history/${selectedService.id}`, {
+          data: {
+            vehicle_id: selectedService.vehicle_id,  // Include vehicle ID
+          },
           headers: {
             Authorization: `Bearer ${userToken}`,
           },
         });
-        setServiceHistory(serviceHistory.filter((item) => item.id !== serviceId));
+  
+        // Filter out the deleted service from the serviceHistory
+        setServiceHistory(serviceHistory.filter((item) => item.id !== selectedService.id));
         setSuccessMessage("Service record deleted successfully.");
+        setShowDeleteModal(false);
       } catch (error) {
         console.error("Error deleting service record:", error);
       }
@@ -126,6 +140,9 @@ const ServiceHistory = () => {
         setSuccessMessage("Service record added successfully.");
         setServiceHistory([...serviceHistory, res.data.history]);
         setShowAddModal(false);
+
+        window.location.reload(); 
+
       } else {
         setSuccessMessage("Failed to add service record.");
       }
@@ -167,7 +184,7 @@ const ServiceHistory = () => {
               </button>
               <button
                 className="btn btn-danger btn-sm mx-1"
-                onClick={() => handleDelete(item.id)}
+                onClick={() => handleDeleteClick(item.id)}
                 title="Delete"
               >
                 <i className="bi bi-trash"></i>
@@ -286,6 +303,45 @@ const ServiceHistory = () => {
                     Add Service Record
                   </button>
                 </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+{showDeleteModal && (
+        <div className="modal show" style={{ display: "block" }} tabIndex="-1" aria-labelledby="deleteServiceModalLabel" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="deleteServiceModalLabel">
+                  Confirm Deletion
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowDeleteModal(false)}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p>Are you sure you want to delete the record for {selectedService?.service_date}?</p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={handleDeleteConfirm}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           </div>
