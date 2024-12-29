@@ -75,7 +75,7 @@ const ServiceHistory = () => {
   };
 
   const handleView = (serviceId) => {
-    const service = serviceHistory.find(item => item.id === serviceId);
+    const service = serviceHistory.find(item => item?.id === serviceId);
     if (service) {
       setSelectedService(service);  // Ensure selectedService is set properly
       setShowViewModal(true);
@@ -87,7 +87,7 @@ const ServiceHistory = () => {
   };
 
   const handleDeleteClick = (serviceId) => {
-    const service = serviceHistory.find(item => item.id === serviceId);
+    const service = serviceHistory.find(item => item?.id === serviceId);
     setSelectedService(service);
     setShowDeleteModal(true);
   };
@@ -107,7 +107,7 @@ const ServiceHistory = () => {
         });
   
         // Filter out the deleted service from the serviceHistory
-        setServiceHistory(serviceHistory.filter((item) => item.id !== selectedService.id));
+        setServiceHistory(serviceHistory.filter((item) => item?.id !== selectedService.id));
         setSuccessMessage("Service record deleted successfully.");
         setShowDeleteModal(false);
       } catch (error) {
@@ -165,26 +165,26 @@ const ServiceHistory = () => {
       </thead>
       <tbody>
         {serviceHistory.map((item) => (
-          <tr key={item.id}>
-            <td>{formatDate(item.service_date)}</td> {/* Format the service date */}
+          <tr key={item?.id}>
+            <td>{formatDate(item?.service_date)}</td> {/* Format the service date */}
             <td>
               <button
                 className="btn btn-info btn-sm mx-1"
-                onClick={() => handleView(item.id)}
+                onClick={() => handleView(item?.id)}
                 title="View"
               >
                 <i className="bi bi-eye"></i>
               </button>
               <button
                 className="btn btn-warning btn-sm mx-1"
-                onClick={() => handleEdit(item.id)}
+                onClick={() => handleEdit(item?.id)}
                 title="Edit"
               >
                 <i className="bi bi-pencil"></i>
               </button>
               <button
                 className="btn btn-danger btn-sm mx-1"
-                onClick={() => handleDeleteClick(item.id)}
+                onClick={() => handleDeleteClick(item?.id)}
                 title="Delete"
               >
                 <i className="bi bi-trash"></i>
