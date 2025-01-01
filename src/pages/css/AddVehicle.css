@@ -1,29 +1,77 @@
 .alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    padding: 10px 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
-  }
-  
-  .success-alert {
-    background-color: #28a745; /* Green for success */
-    color: white;
-  }
-  
-  .error-alert {
-    background-color: #dc3545; /* Red for error */
-    color: white;
-  }
-  
-  /* Show the alerts by changing opacity and top */
-  .alert.show {
-    opacity: 1;
-    top: 40px; /* Adjusted to make it float */
-  }
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
+}
 
-  
+.login-card-header {
+  display: flex;
+  padding: 10px 15px;
+  position: relative; /* To prevent the close button from affecting centering */
+  border-bottom: 1px solid #ddd;
+}
+
+.login-card-header h4 {
+  font-size: 1.25rem; /* Adjust font size */
+  text-align: left;
+}
+
+.close-btn {
+  position: absolute; /* Position the close button independently */
+  right: 15px; /* Align it to the right edge */
+  top: 50%; /* Vertically center */
+  transform: translateY(-50%); /* Correct for vertical centering offset */
+  background: none;
+  border: none;
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 1.5rem; /* Size of the "X" */
+  color: #666; /* Initial color */
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #000; /* Darker color on hover */
+}
+
+.success-alert {
+  background-color: #28a745; /* Green for success */
+  color: white;
+}
+
+.error-alert {
+  background-color: #dc3545; /* Red for error */
+  color: white;
+}
+
+/* Show the alerts by changing opacity and top */
+.alert.show {
+  opacity: 1;
+  top: 40px; /* Adjusted to make it float */
+}
+
+body {
+  background: rgb(0, 10, 30); /* Very dark blue base */
+  background: linear-gradient(
+    135deg,
+    rgba(0, 10, 30, 1) 0%,
+    /* Darkest area */ rgba(0, 20, 50, 1) 40%,
+    /* Darker blue shade */ rgba(10, 30, 70, 1) 70%,
+    /* Rich blue tone */ rgba(20, 40, 90, 1) 100%
+  ); /* Slightly lighter dark blue */
+  margin: 0;
+  padding: 0;
+  font-family: Outfit, Arial, Helvetica, sans-serif;
+}

@@ -1,3 +1,29 @@
+/* Dropdown styles */
+.dropdown-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: #212529;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item.text-danger:hover {
+  background-color: #ffe6e6;
+}
+
+.dropdown-menu {
+  min-width: 200px;
+}
+
+.me-2 {
+  margin-right: 0.5rem;
+}
+
 /* Floating Add Vehicle Button */
 .btn-floating {
   position: fixed;
@@ -64,9 +90,10 @@ table {
   margin-top: 20px; /* Adds space between the table and other elements */
 }
 
-th, td {
+th,
+td {
   padding: 12px 15px;
-  text-align: center;  /* Center-align both headers and data */
+  text-align: center; /* Center-align both headers and data */
   vertical-align: middle;
   border: 1px solid #ddd;
 }
@@ -131,7 +158,8 @@ table .btn-warning:hover {
 }
 
 /* Button Styling for Edit and Delete in Action Column */
-table .btn-edit, table .btn-delete {
+table .btn-edit,
+table .btn-delete {
   margin-right: 10px; /* Add margin to space out buttons */
   padding: 8px 12px;
   font-size: 14px;
@@ -160,6 +188,21 @@ table .btn-delete:hover {
   background-color: #c82333; /* Darker red on hover */
 }
 
+body {
+  background: rgb(0, 15, 40); /* Deep dark blue */
+  background: linear-gradient(
+    135deg,
+    rgba(0, 15, 40, 1) 0%,
+    /* Deep dark blue (base) */ rgba(5, 25, 60, 1) 30%,
+    /* Slightly lighter dark blue */ rgba(10, 35, 80, 1) 60%,
+    /* Richer blue tone */ rgba(20, 50, 100, 1) 100%
+      /* Vibrant blue at the top */
+  );
+
+  margin: 0;
+  padding: 0;
+  font-family: Outfit, Arial, Helvetica, sans-serif;
+}
 
 /* Media Query for Smaller Screens */
 @media (max-width: 768px) {
@@ -182,9 +225,8 @@ table .btn-delete:hover {
     margin-top: 10px; /* Adds space between the table and other elements on smaller screens */
   }
 
-  th, td {
-    padding: 10px 12px;  /* Adjust padding for smaller screens */
+  th,
+  td {
+    padding: 10px 12px; /* Adjust padding for smaller screens */
   }
-
-  
 }

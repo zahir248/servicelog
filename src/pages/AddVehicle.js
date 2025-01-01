@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import './css/AddVehicle.css'; // Make sure to import your CSS file
+import "./css/AddVehicle.css"; // Make sure to import your CSS file
 
 class AddVehicle extends Component {
   state = {
@@ -37,21 +37,24 @@ class AddVehicle extends Component {
 
       if (!userToken) {
         this.setState({
-          errors: { general: "User is not authenticated. Please log in again." },
+          errors: {
+            general: "User is not authenticated. Please log in again.",
+          },
           successMessage: "", // Clear any previous success message
         });
         return;
       }
 
       const res = await axios.post(
-        "http://localhost:8000/api/vehicle/store", 
+        "http://localhost:8000/api/vehicle/store",
         { model, year, registration_number },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
 
       if (res.data.status === 200) {
         this.setState({
-          successMessage: "Vehicle added successfully! Redirecting to dashboard...",
+          successMessage:
+            "Vehicle added successfully! Redirecting to dashboard...",
           errors: {}, // Clear any previous error messages
         });
 
@@ -68,7 +71,10 @@ class AddVehicle extends Component {
     } catch (error) {
       // Handle error if the request fails
       this.setState({
-        errors: { general: "An error occurred while adding the vehicle. Please try again." },
+        errors: {
+          general:
+            "An error occurred while adding the vehicle. Please try again.",
+        },
         successMessage: "", // Clear success message if an error occurs
       });
     }
@@ -89,6 +95,15 @@ class AddVehicle extends Component {
         <div className="login-card">
           <div className="login-card-header">
             <h4>Add Vehicle</h4>
+            {/* Cancel Button (X) */}
+            <button
+              type="button"
+              className="close-btn"
+              aria-label="Close"
+              onClick={this.handleCancel}
+            >
+              <span>&times;</span>
+            </button>
           </div>
 
           <div className="login-card-body">
@@ -157,15 +172,6 @@ class AddVehicle extends Component {
                 Add Vehicle
               </button>
             </form>
-
-            {/* Cancel Button */}
-            <button 
-              type="button" 
-              className="btn btn-danger btn-block mt-3" 
-              onClick={this.handleCancel}
-            >
-              Cancel
-            </button>
           </div>
         </div>
       </div>

@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
-import './css/Login.css'; // Make sure to import the CSS file for additional styling
+import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import "./css/Login.css"; // Make sure to import the CSS file for additional styling
 
 class Login extends Component {
-
-    componentDidMount() {
-        document.title = "Login";
-    }
+  componentDidMount() {
+    document.title = "Login";
+  }
 
   state = {
     email: "", // To store the email input
@@ -28,19 +27,19 @@ class Login extends Component {
 
   handleLogin = async (e) => {
     e.preventDefault();
-  
+
     const { email, password } = this.state;
-  
+
     try {
       const res = await axios.post("http://localhost:8000/api/login", {
         email,
         password,
       });
-  
+
       if (res.data.status === 200) {
         // Successful login
         localStorage.setItem("userToken", res.data.token); // Save the token to localStorage (or sessionStorage)
-        this.setState({ 
+        this.setState({
           successMessage: "Login successful! Redirecting to dashboard...", // Set success message
           errors: {}, // Clear any previous errors
         });
@@ -60,12 +59,14 @@ class Login extends Component {
       } else {
         // Handle unexpected errors
         this.setState({
-          errors: { general: "An error occurred during login. Please try again." },
+          errors: {
+            general: "An error occurred during login. Please try again.",
+          },
           successMessage: "", // Clear success message if any
         });
       }
     }
-  };  
+  };
 
   render() {
     // Redirect to another page (e.g., dashboard) after delay
@@ -123,11 +124,15 @@ class Login extends Component {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary btn-block">Login</button>
+              <button type="submit" className="btn btn-primary btn-block">
+                Login
+              </button>
             </form>
           </div>
           <div className="login-footer">
-            <p>Don't have an account? <Link to="/register">Register here</Link></p>
+            <p>
+              Don't have an account? <Link to="/register">Register here</Link>
+            </p>
           </div>
         </div>
       </div>

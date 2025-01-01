@@ -1,112 +1,131 @@
+body {
+  background: rgb(0, 10, 30); /* Very dark blue base */
+  background: linear-gradient(
+    135deg,
+    rgba(0, 10, 30, 1) 0%,
+    /* Darkest area */ rgba(0, 20, 50, 1) 40%,
+    /* Darker blue shade */ rgba(10, 30, 70, 1) 70%,
+    /* Rich blue tone */ rgba(20, 40, 90, 1) 100%
+  ); /* Slightly lighter dark blue */
+  margin: 0;
+  padding: 0;
+  font-family: Outfit, Arial, Helvetica, sans-serif;
+}
+
 /* Center the login card and apply background color */
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  
-  .login-card {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .login-card-header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .login-card-header h4 {
-    color: #333;
-    font-family: 'Arial', sans-serif;
-    font-weight: bold;
-  }
-  
-  .login-card-body {
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    transition: border-color 0.3s ease;
-  }
-  
-  .form-group input:focus {
-    border-color: #007bff;
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 10px;
-    font-size: 16px;
-    width: 100%;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
-  .login-footer {
-    text-align: center;
-    margin-top: 15px;
-  }
-  
-  .login-footer a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .login-footer a:hover {
-    text-decoration: underline;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-  .alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    padding: 10px 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
+.login-card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-card-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-card-header h4 {
+  color: #333;
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+}
+
+.login-card-body {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.login-footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
+}
+
+.success-alert {
+  background-color: #28a745; /* Green for success */
+  color: white;
+}
+
+.error-alert {
+  background-color: #dc3545; /* Red for error */
+  color: white;
+}
+
+/* Show the alerts by changing opacity and top */
+.alert.show {
+  opacity: 1;
+  top: 40px; /* Adjusted to make it float */
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 15px; /* Adjust padding on smaller screens */
   }
-  
-  .success-alert {
-    background-color: #28a745; /* Green for success */
-    color: white;
-  }
-  
-  .error-alert {
-    background-color: #dc3545; /* Red for error */
-    color: white;
-  }
-  
-  /* Show the alerts by changing opacity and top */
-  .alert.show {
-    opacity: 1;
-    top: 40px; /* Adjusted to make it float */
-  }
-  
-  
+}

@@ -68,7 +68,9 @@ const EditVehicle = () => {
       const userToken = localStorage.getItem("userToken");
 
       if (!userToken) {
-        setErrors({ general: "User is not authenticated. Please log in again." });
+        setErrors({
+          general: "User is not authenticated. Please log in again.",
+        });
         setSuccessMessage(""); // Clear success message if not authenticated
         return;
       }
@@ -84,7 +86,9 @@ const EditVehicle = () => {
       );
 
       if (res.data.status === 200) {
-        setSuccessMessage("Vehicle updated successfully! Redirecting to dashboard...");
+        setSuccessMessage(
+          "Vehicle updated successfully! Redirecting to dashboard..."
+        );
         setErrors({}); // Clear previous error messages
 
         // Delay the redirect to show the success message
@@ -97,7 +101,10 @@ const EditVehicle = () => {
       }
     } catch (error) {
       console.error("Error updating vehicle:", error);
-      setErrors({ general: "An error occurred while updating the vehicle. Please try again." });
+      setErrors({
+        general:
+          "An error occurred while updating the vehicle. Please try again.",
+      });
       setSuccessMessage(""); // Clear success message if an error occurs
     }
   };
@@ -107,7 +114,7 @@ const EditVehicle = () => {
   }
 
   if (loading) {
-    return <h2>Loading...</h2>;
+    return <h2 class="text-white">Loading...</h2>;
   }
 
   return (
@@ -115,6 +122,15 @@ const EditVehicle = () => {
       <div className="login-card">
         <div className="login-card-header">
           <h4>Edit Vehicle</h4>
+          {/* Cancel Button (X) */}
+          <button
+            type="button"
+            className="close-btn"
+            aria-label="Close"
+            onClick={handleCancel} // Call directly
+          >
+            <span>&times;</span>
+          </button>
         </div>
 
         <div className="login-card-body">
@@ -183,15 +199,6 @@ const EditVehicle = () => {
               Update Vehicle
             </button>
           </form>
-
-          {/* Cancel Button */}
-          <button 
-            type="button" 
-            className="btn btn-danger btn-block mt-3" 
-            onClick={handleCancel}
-          >
-            Cancel
-          </button>
         </div>
       </div>
     </div>
