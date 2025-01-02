@@ -274,15 +274,17 @@ const ServiceHistory = () => {
     <h2 class="text-white">No records found</h2>
   ) : (
     <table className="table table-bordered table-striped mx-auto">
-      <thead className="table-active">
+      <thead className="table-primary">
         <tr>
+          <th>No.</th> 
           <th>Service Date</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        {serviceHistory.map((item) => (
+        {serviceHistory.map((item, index) => (
           <tr key={item?.id}>
+            <td>{index + 1}</td> {/* Display the row number (1-based index) */}
             <td>{formatDate(item?.service_date)}</td>
             <td>{renderActionButtons(item)}</td>
           </tr>

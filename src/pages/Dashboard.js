@@ -4,7 +4,6 @@ import { Link, Navigate } from "react-router-dom";
 import "./css/Dashboard.css"; // Import your custom CSS file
 
 class Vehicle extends Component {
-
   state = {
     vehicles: [], // To store the list of vehicles
     loading: true, // To track loading state
@@ -36,6 +35,7 @@ class Vehicle extends Component {
         if (res.data.status === 200) {
           this.setState({
             vehicles: res.data.vehicles,
+            userName: res.data.user_name, // Store the user's name in the state
             loading: false,
           });
         }
@@ -138,7 +138,58 @@ class Vehicle extends Component {
     );
   };
 
+  renderCard = (vehicle) => {
+    // Function to generate shortform
+    const getShortform = (model) => {
+      const words = model.split(" ");
+      if (words.length === 1) {
+        return words[0][0].toUpperCase(); // First letter of a single word
+      }
+      return words[0][0].toUpperCase() + words[1][0].toUpperCase(); // First letters of the first two words
+    };
+
+    return (
+      <div
+        key={vehicle.id}
+        className="card my-3 mx-auto"
+        style={{ maxWidth: "400px" }}
+      >
+        <div className="card-body d-flex align-items-center">
+          {/* Circle with the shortform */}
+          <div
+            className="circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+            style={{
+              width: "50px",
+              height: "50px",
+              borderRadius: "50%",
+              fontSize: "18px",
+              fontWeight: "bold",
+            }}
+          >
+            {getShortform(vehicle.model)}
+          </div>
+          <div>
+            <h5 className="card-title mb-1">{vehicle.model}</h5>
+            <p className="card-text text-muted mb-0">
+              {vehicle.registration_number}
+            </p>
+            <p className="card-text text-muted">{vehicle.year}</p>
+            {this.renderActionButtons(vehicle)}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
+    const getShortform = (model) => {
+      const words = model.split(" ");
+      if (words.length === 1) {
+        return words[0][0].toUpperCase(); // First letter of a single word
+      }
+      return words[0][0].toUpperCase() + words[1][0].toUpperCase(); // First letters of the first two words
+    };
+
     if (this.state.redirectToLogin) {
       return <Navigate to="/" />; // Redirect to login page after logout
     }
@@ -150,31 +201,57 @@ class Vehicle extends Component {
 
     // Check if vehicles are loading or if no vehicles are fetched
     if (loading) {
-      vehicleHTML = <h2 class="text-white">Loading...</h2>;
+      vehicleHTML = <h2 className="text-white">Loading...</h2>;
     } else if (vehicles.length === 0) {
-      vehicleHTML = <h2 class="text-white">No vehicle registered</h2>; // Display message when no data is available
+      vehicleHTML = <h2 className="text-white">No vehicle registered</h2>; // Display message when no data is available
     } else {
       vehicleHTML = (
-        <table className="table table-bordered table-striped mx-auto">
-          <thead className="table-secondary">
-            <tr>
-              <th>Model</th>
-              <th>Year</th>
-              <th>Registration Number</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vehicles.map((item) => (
-              <tr key={item.id}>
-                <td>{item.model}</td>
-                <td>{item.year}</td>
-                <td>{item.registration_number}</td>
-                <td>{this.renderActionButtons(item)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="row">
+          {vehicles.map((item) => (
+            <div className="col-md-4 col-sm-6 mb-4" key={item.id}>
+              <div className="card h-100 position-relative">
+                {/* Positioning container for action buttons */}
+                <div className="card-body">
+                  {/* Model and Circle Shortform Container */}
+                  <div className="d-flex align-items-center">
+                    {/* Circle with shortform */}
+                    <div
+                      className="circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {getShortform(item.model)}{" "}
+                      {/* Displaying the model shortform */}
+                    </div>
+                    {/* Model Name */}
+                    <h5 className="card-title mb-0">{item.model}</h5>
+                  </div>
+
+                  {/* Year and Registration Number placed below the model */}
+                  <div className="mt-2">
+                    <p className="card-text mb-1">
+                      <strong>Year:</strong> {item.year}
+                    </p>
+                    <p className="card-text">
+                      <strong>Registration Number:</strong>{" "}
+                      {item.registration_number}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Absolute position for action buttons */}
+                <div className="text-end position-absolute top-0 end-0 p-3">
+                  {this.renderActionButtons(item)} {/* Render action buttons */}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       );
     }
 
@@ -182,7 +259,11 @@ class Vehicle extends Component {
       <div className="container-fluid custom-container">
         <div className="row justify-content-center">
           <main role="main" className="col-12 px-4">
-            <h4 className="text-center text-white">List of Vehicles</h4>
+            <h4 className="text-center text-white">
+              {this.state.userName
+                ? `${this.state.userName}'s vehicles`
+                : "List of Vehicles"}
+            </h4>
 
             {/* Display success message */}
             {successMessage && (
