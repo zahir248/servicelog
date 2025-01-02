@@ -169,7 +169,7 @@ class AddVehicle extends Component {
 
               {/* Add Vehicle Button */}
               <button type="submit" className="btn btn-primary btn-block">
-                Add Vehicle
+                Add
               </button>
             </form>
           </div>

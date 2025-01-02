@@ -30,14 +30,18 @@ body {
 }
 
 .login-card-header {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex; /* Enable flexbox for alignment */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  text-align: center; /* Fallback for text alignment */
+  margin-bottom: 20px; /* Space below the header */
+  height: 50px; /* Set a height if needed for alignment */
 }
 
 .login-card-header h4 {
-  color: #333;
-  font-family: "Arial", sans-serif;
+  color: #333; /* Text color */
   font-weight: bold;
+  margin: 0; /* Remove any margin */
 }
 
 .login-card-body {

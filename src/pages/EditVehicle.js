@@ -196,7 +196,7 @@ const EditVehicle = () => {
 
             {/* Update Vehicle Button */}
             <button type="submit" className="btn btn-primary btn-block">
-              Update Vehicle
+              Update
             </button>
           </form>
         </div>

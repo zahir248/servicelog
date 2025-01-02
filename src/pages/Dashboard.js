@@ -4,9 +4,6 @@ import { Link, Navigate } from "react-router-dom";
 import "./css/Dashboard.css"; // Import your custom CSS file
 
 class Vehicle extends Component {
-  componentDidMount() {
-    document.title = "Dashboard"; // Set title on component mount
-  }
 
   state = {
     vehicles: [], // To store the list of vehicles
@@ -155,7 +152,7 @@ class Vehicle extends Component {
     if (loading) {
       vehicleHTML = <h2 class="text-white">Loading...</h2>;
     } else if (vehicles.length === 0) {
-      vehicleHTML = <h2>No vehicle registered</h2>; // Display message when no data is available
+      vehicleHTML = <h2 class="text-white">No vehicle registered</h2>; // Display message when no data is available
     } else {
       vehicleHTML = (
         <table className="table table-bordered table-striped mx-auto">

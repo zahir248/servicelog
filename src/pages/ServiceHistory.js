@@ -271,7 +271,7 @@ const ServiceHistory = () => {
   const serviceHistoryHTML = loading ? (
     <h2 class="text-white">Loading...</h2>
   ) : serviceHistory.length === 0 ? (
-    <h2>No records found</h2>
+    <h2 class="text-white">No records found</h2>
   ) : (
     <table className="table table-bordered table-striped mx-auto">
       <thead className="table-active">
@@ -425,7 +425,7 @@ const ServiceHistory = () => {
                     className="btn btn-primary"
                     onClick={handleAddService}
                   >
-                    Add Service Record
+                    Add
                   </button>
                 </form>
               </div>
@@ -628,7 +628,7 @@ const ServiceHistory = () => {
                     className="btn btn-primary"
                     onClick={handleUpdateService}
                   >
-                    Update Service Record
+                    Update
                   </button>
                 </form>
               </div>
