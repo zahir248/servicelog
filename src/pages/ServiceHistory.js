@@ -340,7 +340,7 @@ const ServiceHistory = () => {
       {showAddModal && (
         <div
           className="modal show"
-          style={{ display: "block" }}
+          style={{ display: "block", paddingTop: "30px", paddingRight: "15px" }} // Adds space from top of the page
           tabIndex="-1"
           aria-labelledby="addServiceModalLabel"
           aria-hidden="true"
@@ -466,7 +466,7 @@ const ServiceHistory = () => {
               <div className="modal-body">
                 <p>
                   Are you sure you want to delete the record for{" "}
-                  {selectedService?.service_date}?
+                  {formatDate(selectedService?.service_date)}?
                 </p>
               </div>
               <div className="modal-footer">
