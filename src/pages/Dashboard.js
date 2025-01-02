@@ -306,7 +306,7 @@ class Vehicle extends Component {
             className="modal show"
             style={{
               display: "block",
-              paddingTop: "300px",
+              paddingTop: "30px",
               paddingRight: "15px",
             }} // Adds space from top of the page
             tabIndex="-1"
@@ -356,7 +356,7 @@ class Vehicle extends Component {
             className="modal show"
             style={{
               display: "block",
-              paddingTop: "300px",
+              paddingTop: "30px",
               paddingRight: "15px",
             }} // Adds space from top of the page
             tabIndex="-1"
