@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Navigate, useParams } from "react-router-dom";
+import "./css/EditVehicle.css"; // Import your custom CSS file
 
 const EditVehicle = () => {
   const { id } = useParams(); // Get the vehicle ID from the URL parameters
@@ -114,7 +115,16 @@ const EditVehicle = () => {
   }
 
   if (loading) {
-    return <h2 class="text-white">Loading...</h2>;
+    // Loading state: Show the loading image
+    return (
+      <div className="loading-container">
+        <img
+          src="/assets/images/loading.gif" // Path to your loading image or spinner
+          alt="Loading..."
+          className="loading-spinner"
+        />
+      </div>
+    );
   }
 
   return (

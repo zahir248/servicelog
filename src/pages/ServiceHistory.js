@@ -269,14 +269,20 @@ const ServiceHistory = () => {
   };
 
   const serviceHistoryHTML = loading ? (
-    <h2 class="text-white">Loading...</h2>
+    <div className="loading-container">
+      <img
+        src="/assets/images/loading.gif" // Path to your loading image or spinner
+        alt="Loading..."
+        className="loading-spinner"
+      />
+    </div>
   ) : serviceHistory.length === 0 ? (
     <h2 class="text-white">No records found</h2>
   ) : (
     <table className="table table-bordered table-striped mx-auto">
       <thead className="table-primary">
         <tr>
-          <th>No.</th> 
+          <th>No.</th>
           <th>Service Date</th>
           <th>Actions</th>
         </tr>
@@ -299,7 +305,7 @@ const ServiceHistory = () => {
         <main role="main" className="col-12 px-4">
           <h4 className="text-center text-white">
             {loading
-              ? "Loading..."
+              ? ""
               : vehicle
               ? `Service History of ${vehicle.model}`
               : "Vehicle data not available"}
@@ -439,7 +445,7 @@ const ServiceHistory = () => {
       {showDeleteModal && (
         <div
           className="modal show"
-          style={{ display: "block" }}
+          style={{ display: "block", paddingTop: "30px", paddingRight: "15px" }} // Adds space from top of the page
           tabIndex="-1"
           aria-labelledby="deleteServiceModalLabel"
           aria-hidden="true"
@@ -487,7 +493,7 @@ const ServiceHistory = () => {
       {showViewModal && selectedService && (
         <div
           className="modal show"
-          style={{ display: "block" }}
+          style={{ display: "block", paddingTop: "30px", paddingRight: "15px" }} // Adds space from top of the page
           tabIndex="-1"
           aria-labelledby="viewServiceModalLabel"
           aria-hidden="true"
@@ -537,7 +543,7 @@ const ServiceHistory = () => {
       {showEditModal && (
         <div
           className="modal show"
-          style={{ display: "block" }}
+          style={{ display: "block", paddingTop: "30px", paddingRight: "15px" }} // Adds space from top of the page
           tabIndex="-1"
           aria-labelledby="editServiceModalLabel"
           aria-hidden="true"

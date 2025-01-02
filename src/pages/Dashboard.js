@@ -201,7 +201,15 @@ class Vehicle extends Component {
 
     // Check if vehicles are loading or if no vehicles are fetched
     if (loading) {
-      vehicleHTML = <h2 className="text-white">Loading...</h2>;
+      vehicleHTML = (
+        <div className="loading-container">
+          <img
+            src="/assets/images/loading.gif" // Path to your loading image or spinner
+            alt="Loading..."
+            className="loading-spinner"
+          />
+        </div>
+      );
     } else if (vehicles.length === 0) {
       vehicleHTML = <h2 className="text-white">No vehicle registered</h2>; // Display message when no data is available
     } else {
@@ -260,9 +268,7 @@ class Vehicle extends Component {
         <div className="row justify-content-center">
           <main role="main" className="col-12 px-4">
             <h4 className="text-center text-white">
-              {this.state.userName
-                ? `${this.state.userName}'s vehicles`
-                : "List of Vehicles"}
+              {this.state.userName ? `${this.state.userName}'s vehicles` : ""}
             </h4>
 
             {/* Display success message */}
@@ -298,7 +304,11 @@ class Vehicle extends Component {
         {showModal && (
           <div
             className="modal show"
-            style={{ display: "block" }}
+            style={{
+              display: "block",
+              paddingTop: "300px",
+              paddingRight: "15px",
+            }} // Adds space from top of the page
             tabIndex="-1"
             aria-labelledby="deleteModalLabel"
             aria-hidden="true"
@@ -344,7 +354,11 @@ class Vehicle extends Component {
         {showLogoutModal && (
           <div
             className="modal show"
-            style={{ display: "block" }}
+            style={{
+              display: "block",
+              paddingTop: "300px",
+              paddingRight: "15px",
+            }} // Adds space from top of the page
             tabIndex="-1"
             aria-labelledby="logoutModalLabel"
             aria-hidden="true"
