@@ -8,6 +8,18 @@
   color: #212529;
 }
 
+.emptydata-container-custom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+.emptydata-spinner-custom {
+  width: 400px;
+  height: 400px;
+}
+
 .dropdown-item:hover {
   background-color: #f8f9fa;
 }
@@ -250,5 +262,10 @@ body {
   th,
   td {
     padding: 10px 12px; /* Adjust padding for smaller screens */
+  }
+
+  .emptydata-spinner-custom {
+    width: 250px;
+    height: 250px;
   }
 }

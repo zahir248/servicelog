@@ -211,7 +211,13 @@ class Vehicle extends Component {
         </div>
       );
     } else if (vehicles.length === 0) {
-      vehicleHTML = <h2 className="text-white">No vehicle registered</h2>; // Display message when no data is available
+      vehicleHTML = <div className="emptydata-container-custom">
+      <img
+        src="/assets/images/emptydata.png" // Path to your loading image or spinner
+        alt="Loading..."
+        className="emptydata-spinner-custom"
+      />
+    </div>; // Display message when no data is available
     } else {
       vehicleHTML = (
         <div className="row">

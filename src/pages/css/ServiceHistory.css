@@ -12,6 +12,18 @@ body {
   font-family: Outfit, Arial, Helvetica, sans-serif;
 }
 
+.emptydata-container-custom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .emptydata-spinner-custom {
+    width: 400px;
+    height: 400px;
+  }
+
 .alert {
   position: fixed;
   top: 20px;
@@ -245,5 +257,10 @@ table .btn-delete:hover {
   table .btn {
     margin-right: 5px; /* Adjust the margin for smaller screens */
     margin-bottom: 5px; /* Add vertical margin between buttons */
+  }
+
+  .emptydata-spinner-custom {
+    width: 250px;
+    height: 250px;
   }
 }

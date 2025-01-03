@@ -277,7 +277,13 @@ const ServiceHistory = () => {
       />
     </div>
   ) : serviceHistory.length === 0 ? (
-    <h2 class="text-white">No records found</h2>
+    <div className="emptydata-container-custom">
+      <img
+        src="/assets/images/emptydata.png" // Path to your loading image or spinner
+        alt="Loading..."
+        className="emptydata-spinner-custom"
+      />
+    </div>
   ) : (
     <table className="table table-bordered table-striped mx-auto">
       <thead className="table-primary">
@@ -308,7 +314,7 @@ const ServiceHistory = () => {
               ? ""
               : vehicle
               ? `Service History of ${vehicle.model}`
-              : "Vehicle data not available"}
+              : ""}
           </h4>
 
           {successMessage && (
