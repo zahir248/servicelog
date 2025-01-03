@@ -32,17 +32,23 @@ class Vehicle extends Component {
             Authorization: `Bearer ${userToken}`,
           },
         });
-    
+
         if (res.data.status === 200) {
-          const vehicles = res.data.vehicles.map(vehicle => ({
+          const vehicles = res.data.vehicles.map((vehicle) => ({
             ...vehicle,
             totalServiceCost: vehicle.total_service_cost, // Extract total_service_cost
           }));
-    
+
           this.setState({
             vehicles: vehicles, // Store vehicles with total service cost in the state
             userName: res.data.user_name, // Store the user's name in the state
             loading: false,
+          });
+        } else {
+          // Handle non-200 status
+          this.setState({
+            loading: false,
+            error: "Failed to fetch vehicles",
           });
         }
       } catch (error) {
@@ -50,10 +56,10 @@ class Vehicle extends Component {
         this.setState({ loading: false });
       }
     };
-    
+
     fetchVehicles();
   }
-    
+
   // Open modal to confirm logout
   openLogoutModal = () => {
     this.setState({ showLogoutModal: true });
@@ -217,13 +223,15 @@ class Vehicle extends Component {
         </div>
       );
     } else if (vehicles.length === 0) {
-      vehicleHTML = <div className="emptydata-container-custom">
-      <img
-        src="/assets/images/emptydata.png" // Path to your loading image or spinner
-        alt="Loading..."
-        className="emptydata-spinner-custom"
-      />
-    </div>; // Display message when no data is available
+      vehicleHTML = (
+        <div className="emptydata-container-custom">
+          <img
+            src="/assets/images/emptydata.png" // Path to your loading image or spinner
+            alt="Loading..."
+            className="emptydata-spinner-custom"
+          />
+        </div>
+      ); // Display message when no data is available
     } else {
       vehicleHTML = (
         <div className="row">
@@ -262,9 +270,8 @@ class Vehicle extends Component {
                       {item.registration_number}
                     </p>
                     <p className="card-text">
-                      <strong>Total Service Cost: </strong> RM {" "}
-                      {item.totalServiceCost
-                      }
+                      <strong>Total Service Cost: </strong> RM{" "}
+                      {item.totalServiceCost.toFixed(2)}
                     </p>
                   </div>
                 </div>
