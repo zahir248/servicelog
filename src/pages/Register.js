@@ -54,7 +54,7 @@ function Register() {
 
           // Redirect after a brief delay to allow the success message to be seen
           setTimeout(() => {
-            navigate("/"); // Redirect to login page after successful registration
+            navigate("/service-log"); // Redirect to login page after successful registration
           }, 2000); // 2 seconds delay
         } else {
           // Handle validation errors from the backend
@@ -153,7 +153,7 @@ function Register() {
         </form>
         <div className="login-redirect">
           <p>
-            Already have an account? <a href="/">Login here</a>
+            Already have an account? <a href="/service-log">Login here</a>
           </p>
         </div>
       </div>

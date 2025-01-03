@@ -191,7 +191,7 @@ class Vehicle extends Component {
     };
 
     if (this.state.redirectToLogin) {
-      return <Navigate to="/" />; // Redirect to login page after logout
+      return <Navigate to="/service-log" />; // Redirect to login page after logout
     }
 
     const { vehicles, loading, successMessage, showModal, showLogoutModal } =
