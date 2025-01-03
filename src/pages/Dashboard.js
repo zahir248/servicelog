@@ -107,10 +107,7 @@ class Vehicle extends Component {
           showModal: false, // Close the modal after successful deletion
         });
 
-        // Delay the redirect to show the success message
-        setTimeout(() => {
-          this.setState({ successMessage: "" }); // Clear the success message after 3 seconds
-        }, 3000);
+        window.location.reload(); // Refresh the page
       }
     } catch (error) {
       console.error("Error deleting vehicle:", error);
@@ -129,7 +126,7 @@ class Vehicle extends Component {
         <ul className="dropdown-menu">
           <li>
             <Link to={`/service-history/${item.id}`} className="dropdown-item">
-              <i className="bi bi-tools me-2"></i>Service History
+              <i className="bi bi-tools me-2"></i>View Service History
             </Link>
           </li>
           <li>
