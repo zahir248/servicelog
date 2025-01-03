@@ -32,9 +32,15 @@ class Vehicle extends Component {
             Authorization: `Bearer ${userToken}`,
           },
         });
+    
         if (res.data.status === 200) {
+          const vehicles = res.data.vehicles.map(vehicle => ({
+            ...vehicle,
+            totalServiceCost: vehicle.total_service_cost, // Extract total_service_cost
+          }));
+    
           this.setState({
-            vehicles: res.data.vehicles,
+            vehicles: vehicles, // Store vehicles with total service cost in the state
             userName: res.data.user_name, // Store the user's name in the state
             loading: false,
           });
@@ -44,10 +50,10 @@ class Vehicle extends Component {
         this.setState({ loading: false });
       }
     };
-
+    
     fetchVehicles();
   }
-
+    
   // Open modal to confirm logout
   openLogoutModal = () => {
     this.setState({ showLogoutModal: true });
@@ -251,9 +257,14 @@ class Vehicle extends Component {
                     <p className="card-text mb-1">
                       <strong>Year:</strong> {item.year}
                     </p>
-                    <p className="card-text">
+                    <p className="card-text mb-1">
                       <strong>Registration Number:</strong>{" "}
                       {item.registration_number}
+                    </p>
+                    <p className="card-text">
+                      <strong>Total Service Cost: </strong> RM {" "}
+                      {item.totalServiceCost
+                      }
                     </p>
                   </div>
                 </div>
