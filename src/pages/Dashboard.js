@@ -114,6 +114,45 @@ class Vehicle extends Component {
     }
   };
 
+  handleExportPDF = async (vehicle) => {
+    const userToken = localStorage.getItem("userToken");
+
+    try {
+      // Make request to Laravel backend for PDF
+      const response = await axios.get(
+        `http://localhost:8000/api/vehicle/${vehicle.id}/export-pdf`,
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+          responseType: "blob", // Important for receiving PDF data
+        }
+      );
+
+      // Create a blob URL from the PDF data
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a temporary link and trigger download
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `${vehicle.model}_${vehicle.registration_number}_report.pdf`
+      );
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error exporting PDF:", error);
+      // Show error message to user
+      alert("Failed to export PDF. Please try again.");
+    }
+  };
+
   renderActionButtons = (item) => {
     return (
       <div className="dropdown">
@@ -133,6 +172,14 @@ class Vehicle extends Component {
             <Link to={`/edit-vehicle/${item.id}`} className="dropdown-item">
               <i className="bi bi-pencil me-2"></i>Edit
             </Link>
+          </li>
+          <li>
+            <button
+              className="dropdown-item"
+              onClick={() => this.handleExportPDF(item)}
+            >
+              <i className="bi bi-file-pdf me-2"></i>Export PDF
+            </button>
           </li>
           <li>
             <button
