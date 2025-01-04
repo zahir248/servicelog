@@ -189,6 +189,7 @@ const ServiceHistory = () => {
         );
         setSuccessMessage("Service record deleted successfully.");
         setShowDeleteModal(false);
+        window.location.reload(); // Refresh the page
       } catch (error) {
         console.error("Error deleting service record:", error);
       }

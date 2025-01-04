@@ -37,6 +37,7 @@ class Vehicle extends Component {
           const vehicles = res.data.vehicles.map((vehicle) => ({
             ...vehicle,
             totalServiceCost: vehicle.total_service_cost, // Extract total_service_cost
+            totalServiceRecord: vehicle.total_service_records,
           }));
 
           this.setState({
@@ -312,6 +313,9 @@ class Vehicle extends Component {
                     <p className="card-text mb-1">
                       <strong>Registration Number:</strong>{" "}
                       {item.registration_number}
+                    </p>
+                    <p className="card-text mb-1">
+                      <strong>Total Service: </strong> {item.totalServiceRecord}
                     </p>
                     <p className="card-text">
                       <strong>Total Service Cost: </strong> RM{" "}
