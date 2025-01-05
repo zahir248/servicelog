@@ -40,7 +40,6 @@
   position: relative;
 }
 
-
 .circle {
   width: 50px;
   height: 50px;
@@ -56,7 +55,6 @@
   top: 10px;
   left: 10px;
 }
-
 
 /* Floating Add Vehicle Button */
 .btn-floating {
@@ -81,10 +79,10 @@
   background-color: #0056b3; /* Changes color on hover */
 }
 
-/* Floating Logout Button (same position as Add Vehicle) */
+/* Logout button (top-most) */
 .logout-btn {
   position: fixed;
-  bottom: 90px; /* Adjust the position so it's above the Add Vehicle button */
+  bottom: 180px; /* Adjusted to be 80px above the new floating button */
   right: 20px;
   width: 60px;
   height: 60px;
@@ -94,14 +92,37 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  background-color: #dc3545; /* Optional: Adds color to the button */
-  color: white; /* Ensures the icon color is white */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
-  transition: background-color 0.3s ease-in-out; /* Smooth hover effect */
+  background-color: #dc3545;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease-in-out;
 }
 
 .logout-btn:hover {
   background-color: #c82333; /* Changes color on hover */
+}
+
+/* New floating button style */
+.update-profile-btn {
+  position: fixed;
+  bottom: 160px; /* Positioned between the add and logout buttons */
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background-color: #28a745; /* Green color, you can change this */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.update-profile-btn:hover {
+  background-color: #218838;
 }
 
 /* Custom container padding */
@@ -247,6 +268,11 @@ body {
 
   .logout-btn {
     bottom: 80px;
+    right: 10px;
+  }
+
+  .update-profile-btn {
+    bottom: 150px;
     right: 10px;
   }
 

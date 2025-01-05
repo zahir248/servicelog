@@ -11,7 +11,15 @@ class Vehicle extends Component {
     redirectToLogin: false, // To handle redirection after logout
     showModal: false, // To manage modal visibility for delete
     showLogoutModal: false, // To manage modal visibility for logout
+    showProfileModal: false,
     vehicleToDelete: null, // Vehicle to delete
+    userProfile: {
+      user_name: "", // for name
+      user_email: "", // for email
+    },
+    updateSuccess: false,
+    updateError: "",
+    userName: "",
   };
 
   componentDidMount() {
@@ -26,6 +34,8 @@ class Vehicle extends Component {
     }
 
     const fetchVehicles = async () => {
+      const userToken = localStorage.getItem("userToken");
+
       try {
         const res = await axios.get("http://localhost:8000/api/vehicles", {
           headers: {
@@ -34,32 +44,126 @@ class Vehicle extends Component {
         });
 
         if (res.data.status === 200) {
-          const vehicles = res.data.vehicles.map((vehicle) => ({
-            ...vehicle,
-            totalServiceCost: vehicle.total_service_cost, // Extract total_service_cost
-            totalServiceRecord: vehicle.total_service_records,
-          }));
+          // Extract user data if available in the response
+          const { user_name, user_email } = res.data;
 
-          this.setState({
-            vehicles: vehicles, // Store vehicles with total service cost in the state
-            userName: res.data.user_name, // Store the user's name in the state
-            loading: false,
-          });
+          // Store user data in state if available
+          if (user_name && user_email) {
+            this.setState({
+              userName: user_name, // Store the user's name
+              userEmail: user_email, // Store the user's email
+            });
+          }
+
+          // Handle vehicles data if available
+          if (res.data.vehicles) {
+            const vehicles = res.data.vehicles.map((vehicle) => ({
+              ...vehicle,
+              totalServiceCost: vehicle.total_service_cost, // Extract total_service_cost
+              totalServiceRecord: vehicle.total_service_records,
+            }));
+
+            this.setState({
+              vehicles: vehicles, // Store vehicles with total service cost
+              loading: false,
+            });
+          } else {
+            // Handle the case where vehicles are not fetched
+            this.setState({
+              vehicles: [], // Empty array if no vehicles data
+              loading: false,
+              error: "No vehicles found",
+            });
+          }
         } else {
-          // Handle non-200 status
           this.setState({
             loading: false,
-            error: "Failed to fetch vehicles",
+            error: "Failed to fetch data",
           });
         }
       } catch (error) {
         console.error("Error fetching vehicles:", error);
-        this.setState({ loading: false });
+        this.setState({ loading: false, error: "Error fetching data" });
       }
     };
 
     fetchVehicles();
   }
+
+  openProfileModal = async () => {
+    const { userName, userEmail } = this.state;
+
+    if (userName && userEmail) {
+      // Set the modal state correctly with the user data
+      this.setState({
+        showProfileModal: true,
+        userProfile: {
+          ...this.state.userProfile, // Preserve the previous userProfile data
+          user_name: userName, // Update name
+          user_email: userEmail, // Update email
+        },
+      });
+    } else {
+      // Handle the case when user data isn't available
+      console.log("User data is not available.");
+    }
+  };
+
+  closeProfileModal = () => {
+    this.setState({
+      showProfileModal: false,
+      updateSuccess: false,
+      updateError: "",
+    });
+  };
+
+  handleProfileChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      userProfile: {
+        ...this.state.userProfile,
+        [name]: value, // Dynamically update the field based on the 'name' attribute
+      },
+    });
+  };
+
+  handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    const userToken = localStorage.getItem("userToken");
+
+    try {
+      const response = await axios.put(
+        "http://localhost:8000/api/user/profile/update",
+        {
+          name: this.state.userProfile.user_name, // Use user_name from userProfile
+          email: this.state.userProfile.user_email, // Use user_email from userProfile
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+
+      if (response.data.status === 200) {
+        this.setState({
+          updateSuccess: true,
+          updateError: "",
+          userName: this.state.userProfile.user_name, // Update the username in the state
+          userEmail: this.state.userProfile.user_email, // Update the email in the state
+        });
+
+        // Close the profile modal and immediately refresh the page
+        this.closeProfileModal();
+        // window.location.reload();
+      }
+    } catch (error) {
+      this.setState({
+        updateError: "Failed to update profile. Please try again.",
+        updateSuccess: false,
+      });
+    }
+  };
 
   // Open modal to confirm logout
   openLogoutModal = () => {
@@ -340,7 +444,9 @@ class Vehicle extends Component {
         <div className="row justify-content-center">
           <main role="main" className="col-12 px-4">
             <h4 className="text-center text-white">
-              {this.state.userName ? `${this.state.userName}'s vehicles` : ""}
+              {this.state.vehicles && this.state.vehicles.length > 0
+                ? `${this.state.userName}'s vehicles`
+                : ""}
             </h4>
 
             {/* Display success message */}
@@ -370,6 +476,15 @@ class Vehicle extends Component {
           title="Logout"
         >
           <i className="bi bi-box-arrow-right text-white"></i>
+        </button>
+
+        {/* Floating Edit Profile Button */}
+        <button
+          onClick={this.openProfileModal}
+          className="btn btn-success update-profile-btn"
+          title="Edit Profile"
+        >
+          <i className="bi bi-person-circle"></i>
         </button>
 
         {/* Modal for deletion confirmation */}
@@ -416,6 +531,84 @@ class Vehicle extends Component {
                   >
                     Delete
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Profile Update Modal */}
+        {this.state.showProfileModal && (
+          <div
+            className="modal show"
+            style={{
+              display: "block",
+              paddingTop: "30px",
+              paddingRight: "15px",
+            }}
+          >
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Edit Profile</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={this.closeProfileModal}
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  {/* Success and Error Alerts */}
+                  {this.state.updateSuccess && (
+                    <div className="alert alert-success">
+                      Profile updated successfully!
+                    </div>
+                  )}
+                  {this.state.updateError && (
+                    <div className="alert alert-danger">
+                      {this.state.updateError}
+                    </div>
+                  )}
+
+                  {/* Profile Update Form */}
+                  <form onSubmit={this.handleProfileUpdate}>
+                    {/* Name Field */}
+                    <div className="mb-3">
+                      <label htmlFor="name" className="form-label">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="name"
+                        name="user_name" // Map to 'user_name'
+                        value={this.state.userProfile.user_name || ""} // Use user_name from state
+                        onChange={this.handleProfileChange}
+                      />
+                    </div>
+
+                    {/* Email Field */}
+                    <div className="mb-3">
+                      <label htmlFor="email" className="form-label">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        name="user_email" // Map to 'user_email'
+                        value={this.state.userProfile.user_email || ""} // Use user_email from state
+                        onChange={this.handleProfileChange}
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="modal-footer">
+                      <button type="submit" className="btn btn-primary">
+                        Update
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
