@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Navigate, useParams } from "react-router-dom";
-import "./css/EditVehicle.css"; // Import your custom CSS file
+
+import "./css/EditVehicle.css"; 
+import BASE_API_URL from '../config.js';
 
 const EditVehicle = () => {
   const { id } = useParams(); // Get the vehicle ID from the URL parameters
@@ -28,7 +30,7 @@ const EditVehicle = () => {
     // Fetch vehicle data for editing
     const fetchVehicle = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/api/vehicle/${id}`, {
+        const res = await axios.get(`${BASE_API_URL}/vehicle/${id}`, {
           headers: {
             Authorization: `Bearer ${userToken}`,
           },
@@ -77,7 +79,7 @@ const EditVehicle = () => {
       }
 
       const res = await axios.put(
-        `http://localhost:8000/api/vehicle/${id}`,
+        `${BASE_API_URL}/vehicle/${id}`,
         { model, year, registration_number },
         {
           headers: {

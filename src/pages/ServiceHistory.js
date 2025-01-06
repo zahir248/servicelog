@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+
 import "./css/ServiceHistory.css";
+import BASE_API_URL from '../config.js';
 
 const ServiceHistory = () => {
   document.title = "Service History"; // Set title on component mount
@@ -57,7 +59,7 @@ const ServiceHistory = () => {
     const fetchServiceData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8000/api/service-history/${id}`,
+          `${BASE_API_URL}/service-history/${id}`,
           {
             headers: {
               Authorization: `Bearer ${userToken}`,
@@ -125,7 +127,7 @@ const ServiceHistory = () => {
       console.log("Updating service with ID:", editService.id);
 
       const res = await axios.put(
-        `http://localhost:8000/api/service-history/${editService.id}`,
+        `${BASE_API_URL}/service-history/${editService.id}`,
         {
           service_date: editService.service_date,
           service_place: editService.service_place,
@@ -172,7 +174,7 @@ const ServiceHistory = () => {
       try {
         // Send the service ID and the vehicle ID in the delete request
         await axios.delete(
-          `http://localhost:8000/api/service-history/${selectedService.id}`,
+          `${BASE_API_URL}/service-history/${selectedService.id}`,
           {
             data: {
               vehicle_id: selectedService.vehicle_id, // Include vehicle ID
@@ -201,7 +203,7 @@ const ServiceHistory = () => {
 
     try {
       const res = await axios.post(
-        `http://localhost:8000/api/add-service-history/store/${id}`,
+        `${BASE_API_URL}/add-service-history/store/${id}`,
         {
           vehicle_id: id,
           service_date: newService.service_date,

@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap styles
+import "bootstrap/dist/css/bootstrap.min.css"; 
 import React, { useState, useEffect } from "react";
+
 import "./css/Register.css";
+import BASE_API_URL from '../config.js';
 
 function Register() {
   useEffect(() => {
@@ -39,7 +41,7 @@ function Register() {
 
       // API call to register
       const response = await axios.post(
-        "http://localhost:8000/api/register",
+        `${BASE_API_URL}/register`,
         formData
       );
 

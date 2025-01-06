@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import "./css/AddVehicle.css"; // Make sure to import your CSS file
+
+import "./css/AddVehicle.css"; 
+import BASE_API_URL from '../config.js';
 
 class AddVehicle extends Component {
   state = {
@@ -46,7 +48,7 @@ class AddVehicle extends Component {
       }
 
       const res = await axios.post(
-        "http://localhost:8000/api/vehicle/store",
+        `${BASE_API_URL}/vehicle/store`,
         { model, year, registration_number },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );

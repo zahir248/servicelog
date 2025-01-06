@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import "./css/Login.css"; // Make sure to import the CSS file for additional styling
+
+import "./css/Login.css"; 
+import BASE_API_URL from '../config.js';
 
 class Login extends Component {
   componentDidMount() {
@@ -31,7 +33,7 @@ class Login extends Component {
     const { email, password } = this.state;
 
     try {
-      const res = await axios.post("http://localhost:8000/api/login", {
+      const res = await axios.post(`${BASE_API_URL}/login`, {
         email,
         password,
       });

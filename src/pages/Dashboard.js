@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link, Navigate } from "react-router-dom";
-import "./css/Dashboard.css"; // Import your custom CSS file
+
+import "./css/Dashboard.css"; 
+import BASE_API_URL from '../config.js';
 
 class Vehicle extends Component {
   state = {
@@ -40,7 +42,7 @@ class Vehicle extends Component {
       const userToken = localStorage.getItem("userToken");
 
       try {
-        const res = await axios.get("http://localhost:8000/api/vehicles", {
+        const res = await axios.get(`${BASE_API_URL}/vehicles`, {
           headers: {
             Authorization: `Bearer ${userToken}`,
           },
@@ -182,7 +184,7 @@ class Vehicle extends Component {
       console.log("Data being sent to the server:", updateData);
 
       const response = await axios.put(
-        "http://localhost:8000/api/user/profile/update",
+        `${BASE_API_URL}/user/profile/update`,
         updateData,
         {
           headers: {
@@ -259,7 +261,7 @@ class Vehicle extends Component {
 
     try {
       const res = await axios.delete(
-        `http://localhost:8000/api/vehicle/${vehicleToDelete}`,
+        `${BASE_API_URL}/vehicle/${vehicleToDelete}`,
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
@@ -289,7 +291,7 @@ class Vehicle extends Component {
     try {
       // Make request to Laravel backend for PDF
       const response = await axios.get(
-        `http://localhost:8000/api/vehicle/${vehicle.id}/export-pdf`,
+        `${BASE_API_URL}/vehicle/${vehicle.id}/export-pdf`,
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
