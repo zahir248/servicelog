@@ -116,7 +116,7 @@ class AddVehicle extends Component {
 
             {/* Display success message if vehicle is added successfully */}
             {this.state.successMessage && (
-              <div className="alert alert-success alert-custom show">
+              <div className="alert success-alert show">
                 {this.state.successMessage}
               </div>
             )}

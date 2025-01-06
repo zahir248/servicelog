@@ -153,7 +153,7 @@ const EditVehicle = () => {
 
           {/* Display success message if vehicle is updated */}
           {successMessage && (
-            <div className="alert alert-success alert-custom show">
+            <div className="alert success-alert show">
               {successMessage}
             </div>
           )}
