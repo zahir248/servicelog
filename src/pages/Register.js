@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css"; 
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
 
 import "./css/Register.css";
-import BASE_API_URL from '../config.js';
+import BASE_API_URL from "../config.js";
 
 function Register() {
   useEffect(() => {
@@ -31,65 +31,83 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.password) {
-      setError("Please fill all fields");
+    // Client-side validation
+    if (!formData.name || formData.name.trim() === "") {
+      setError("Name is required");
+      return;
+    }
+
+    if (formData.name.length > 255) {
+      setError("Name must not exceed 255 characters");
+      return;
+    }
+
+    if (!formData.email || formData.email.trim() === "") {
+      setError("Email is required");
+      return;
+    }
+
+    // Email format validation using regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (formData.email.length > 255) {
+      setError("Email must not exceed 255 characters");
+      return;
+    }
+
+    if (!formData.password || formData.password.trim() === "") {
+      setError("Password is required");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters");
       return;
     }
 
     try {
       console.log("Form submitted");
 
+      // Clear previous errors and success messages
+      setError("");
+      setSuccessMessage("");
+
       // API call to register
-      const response = await axios.post(
-        `${BASE_API_URL}/register`,
-        formData
-      );
+      const response = await axios.post(`${BASE_API_URL}/register`, formData);
 
       console.log("API Response:", response); // Log the full response
 
-      // Check if response status is OK (200) from the server
-      if (response.status === 200) {
-        if (response.data.status === 200) {
-          // Registration was successful
-          setError(""); // Clear previous errors
-          setSuccessMessage("Registration successful!"); // Set success message
+      if (response.status === 200 && response.data.status === 200) {
+        // Registration successful
+        setSuccessMessage("Registration successful!");
 
-          // Redirect after a brief delay to allow the success message to be seen
-          setTimeout(() => {
-            navigate("/service-log"); // Redirect to login page after successful registration
-          }, 2000); // 2 seconds delay
-        } else {
-          // Handle validation errors from the backend
-          if (response.data.errors) {
-            const errorMessages = Object.values(response.data.errors)
-              .map(
-                (errors) => errors.join(", ") // Join multiple errors for the same field
-              )
-              .join(", "); // Join all errors with commas if multiple errors exist
-
-            setError(errorMessages); // Set the error message to display
-          } else {
-            setError("Please fix the errors.");
-          }
-        }
+        // Redirect after a delay
+        setTimeout(() => {
+          navigate("/service-log");
+        }, 2000);
       } else {
-        setError("Unexpected error occurred, please try again.");
-        console.log("Unexpected response:", response);
+        // Handle server-side validation errors
+        if (response.data.errors) {
+          const errorMessages = Object.values(response.data.errors)
+            .map((errors) => errors.join(", "))
+            .join(", ");
+          setError(errorMessages);
+        } else {
+          setError("Unexpected error occurred. Please try again.");
+        }
       }
     } catch (error) {
-      console.log("Error caught:", error); // Log the full error
+      console.error("Error caught:", error); // Log the error
       if (error.response) {
-        console.log("Error response:", error.response);
-
-        // If there are validation errors, show them
         if (error.response.data.errors) {
           const errorMessages = Object.values(error.response.data.errors)
-            .map(
-              (errors) => errors.join(", ") // Join multiple errors for the same field
-            )
-            .join(", "); // Join all errors with commas if multiple errors exist
-
-          setError(errorMessages); // Set the error message to display
+            .map((errors) => errors.join(", "))
+            .join(", ");
+          setError(errorMessages);
         } else {
           setError("Error: " + error.response.statusText);
         }

@@ -3,8 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
-import "./css/Login.css"; 
-import BASE_API_URL from '../config.js';
+import "./css/Login.css";
+import BASE_API_URL from "../config.js";
 
 class Login extends Component {
   componentDidMount() {
