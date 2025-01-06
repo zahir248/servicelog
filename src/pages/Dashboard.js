@@ -16,7 +16,10 @@ class Vehicle extends Component {
     userProfile: {
       user_name: "", // for name
       user_email: "", // for email
+      password: "",
+      password_confirmation: "",
     },
+    showPasswordFields: false,
     updateSuccess: false,
     updateError: "",
     userName: "",
@@ -117,12 +120,24 @@ class Vehicle extends Component {
     });
   };
 
+  // Add new method to toggle password fields
+  togglePasswordFields = () => {
+    this.setState((prevState) => ({
+      showPasswordFields: !prevState.showPasswordFields,
+      userProfile: {
+        ...prevState.userProfile,
+        password: "",
+        password_confirmation: "",
+      },
+    }));
+  };
+
   handleProfileChange = (e) => {
     const { name, value } = e.target;
     this.setState({
       userProfile: {
         ...this.state.userProfile,
-        [name]: value, // Dynamically update the field based on the 'name' attribute
+        [name]: value,
       },
     });
   };
@@ -132,15 +147,47 @@ class Vehicle extends Component {
     const userToken = localStorage.getItem("userToken");
 
     try {
+      const updateData = {
+        name: this.state.userProfile.user_name,
+        email: this.state.userProfile.user_email,
+      };
+
+      // Only include password fields if they are shown and password is entered
+      if (this.state.showPasswordFields && this.state.userProfile.password) {
+        if (
+          this.state.userProfile.password !==
+          this.state.userProfile.password_confirmation
+        ) {
+          this.setState({
+            updateError: "Password and confirmation do not match",
+            updateSuccess: false,
+          });
+          return;
+        }
+        updateData.password = this.state.userProfile.password;
+        updateData.password_confirmation =
+          this.state.userProfile.password_confirmation;
+      }
+
+      // Form validation
+      if (!updateData.name || !updateData.email) {
+        this.setState({
+          updateError: "Name and email are required",
+          updateSuccess: false,
+        });
+        return;
+      }
+
+      // Debug line: Log the data being sent
+      console.log("Data being sent to the server:", updateData);
+
       const response = await axios.put(
         "http://localhost:8000/api/user/profile/update",
-        {
-          name: this.state.userProfile.user_name, // Use user_name from userProfile
-          email: this.state.userProfile.user_email, // Use user_email from userProfile
-        },
+        updateData,
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -149,17 +196,34 @@ class Vehicle extends Component {
         this.setState({
           updateSuccess: true,
           updateError: "",
-          userName: this.state.userProfile.user_name, // Update the username in the state
-          userEmail: this.state.userProfile.user_email, // Update the email in the state
+          userName: this.state.userProfile.user_name,
+          userEmail: this.state.userProfile.user_email,
+          showPasswordFields: false,
+          userProfile: {
+            ...this.state.userProfile,
+            password: "",
+            password_confirmation: "",
+          },
         });
 
-        // Close the profile modal and immediately refresh the page
-        this.closeProfileModal();
-        // window.location.reload();
+        setTimeout(() => {
+          this.closeProfileModal();
+          window.location.reload(); // Refresh to update the display name
+        }, 1500);
       }
     } catch (error) {
+      let errorMessage = "Failed to update profile. Please try again.";
+
+      // Handle validation errors from Laravel
+      if (error.response?.data?.errors) {
+        const errors = error.response.data.errors;
+        errorMessage = Object.values(errors).flat().join(", ");
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
       this.setState({
-        updateError: "Failed to update profile. Please try again.",
+        updateError: errorMessage,
         updateSuccess: false,
       });
     }
@@ -355,8 +419,15 @@ class Vehicle extends Component {
       return <Navigate to="/service-log" />; // Redirect to login page after logout
     }
 
-    const { vehicles, loading, successMessage, showModal, showLogoutModal } =
-      this.state;
+    const {
+      vehicles,
+      loading,
+      successMessage,
+      showModal,
+      showLogoutModal,
+      showPasswordFields,
+      userProfile,
+    } = this.state;
 
     let vehicleHTML;
 
@@ -601,6 +672,53 @@ class Vehicle extends Component {
                         onChange={this.handleProfileChange}
                       />
                     </div>
+
+                    <div className="mb-3">
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                        onClick={this.togglePasswordFields}
+                      >
+                        {showPasswordFields
+                          ? "Hide Password Fields"
+                          : "Change Password"}
+                      </button>
+                    </div>
+
+                    {showPasswordFields && (
+                      <>
+                        <div className="mb-3">
+                          <label htmlFor="password" className="form-label">
+                            New Password
+                          </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            id="password"
+                            name="password"
+                            value={userProfile.password || ""}
+                            onChange={this.handleProfileChange}
+                          />
+                        </div>
+
+                        <div className="mb-3">
+                          <label
+                            htmlFor="password_confirmation"
+                            className="form-label"
+                          >
+                            Confirm New Password
+                          </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            value={userProfile.password_confirmation || ""}
+                            onChange={this.handleProfileChange}
+                          />
+                        </div>
+                      </>
+                    )}
 
                     {/* Submit Button */}
                     <div className="modal-footer">
