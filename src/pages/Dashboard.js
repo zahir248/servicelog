@@ -14,6 +14,7 @@ class Vehicle extends Component {
     showModal: false, // To manage modal visibility for delete
     showLogoutModal: false, // To manage modal visibility for logout
     showProfileModal: false,
+    isFloatingMenuOpen: false, // Add this new state
     vehicleToDelete: null, // Vehicle to delete
     userProfile: {
       user_name: "", // for name
@@ -94,6 +95,13 @@ class Vehicle extends Component {
 
     fetchVehicles();
   }
+
+  // Add this method to toggle the floating menu
+  toggleFloatingMenu = () => {
+    this.setState((prevState) => ({
+      isFloatingMenuOpen: !prevState.isFloatingMenuOpen,
+    }));
+  };
 
   openProfileModal = async () => {
     const { userName, userEmail } = this.state;
@@ -559,32 +567,57 @@ class Vehicle extends Component {
           </main>
         </div>
 
-        {/* Floating Add Vehicle Button */}
-        <Link
-          to="/add-vehicle"
-          className="btn btn-primary btn-floating"
-          title="Add Vehicle"
+        {/* Replace the old floating buttons with this new floating menu */}
+        <div
+          className={`floating-menu ${
+            this.state.isFloatingMenuOpen ? "open" : ""
+          }`}
         >
-          <i className="bi bi-plus"></i>
-        </Link>
+          <button
+            className="btn btn-primary menu-trigger"
+            onClick={this.toggleFloatingMenu}
+            title="Menu"
+          >
+            <i
+              className={`bi ${
+                this.state.isFloatingMenuOpen ? "bi-x" : "bi-list"
+              }`}
+            ></i>
+          </button>
 
-        {/* Floating Logout Button */}
-        <button
-          onClick={this.openLogoutModal}
-          className="btn btn-danger btn-floating logout-btn"
-          title="Logout"
-        >
-          <i className="bi bi-box-arrow-right text-white"></i>
-        </button>
+          <div className="floating-menu-items">
+            <Link
+              to="/add-vehicle"
+              className="btn btn-primary menu-item"
+              title="Add Vehicle"
+              onClick={() => this.setState({ isFloatingMenuOpen: false })}
+            >
+              <i className="bi bi-plus"></i>
+            </Link>
 
-        {/* Floating Edit Profile Button */}
-        <button
-          onClick={this.openProfileModal}
-          className="btn btn-success update-profile-btn"
-          title="Edit Profile"
-        >
-          <i className="bi bi-person-circle"></i>
-        </button>
+            <button
+              onClick={() => {
+                this.openProfileModal();
+                this.setState({ isFloatingMenuOpen: false });
+              }}
+              className="btn btn-success menu-item"
+              title="Edit Profile"
+            >
+              <i className="bi bi-person-circle"></i>
+            </button>
+
+            <button
+              onClick={() => {
+                this.openLogoutModal();
+                this.setState({ isFloatingMenuOpen: false });
+              }}
+              className="btn btn-danger menu-item"
+              title="Logout"
+            >
+              <i className="bi bi-box-arrow-right"></i>
+            </button>
+          </div>
+        </div>
 
         {/* Modal for deletion confirmation */}
         {showModal && (

@@ -56,29 +56,6 @@
   left: 10px;
 }
 
-/* Floating Add Vehicle Button */
-.btn-floating {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  background-color: #007bff; /* Optional: Adds color to the button */
-  color: white; /* Ensures the icon color is white */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
-  transition: background-color 0.3s ease-in-out; /* Smooth hover effect */
-}
-
-.btn-floating:hover {
-  background-color: #0056b3; /* Changes color on hover */
-}
-
 /* Logout button (top-most) */
 .logout-btn {
   position: fixed;
@@ -259,11 +236,85 @@ body {
   font-family: Outfit, Arial, Helvetica, sans-serif;
 }
 
+.floating-menu {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.menu-trigger {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  border: none;
+}
+
+.menu-trigger:hover {
+  background-color: #0056b3;
+}
+
+.floating-menu-items {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease-in-out;
+}
+
+.floating-menu.open .floating-menu-items {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.menu-item {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  border: none;
+}
+
+.menu-item:hover {
+  transform: scale(1.1);
+}
+
 /* Media Query for Smaller Screens */
 @media (max-width: 768px) {
-  .btn-floating {
+  .floating-menu {
     bottom: 10px;
     right: 10px;
+  }
+
+  .menu-trigger {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .menu-item {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
   }
 
   .logout-btn {
