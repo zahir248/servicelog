@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Navigate, useParams } from "react-router-dom";
 
-import "./css/EditVehicle.css"; 
-import BASE_API_URL from '../config.js';
+import "./css/EditVehicle.css";
+import BASE_API_URL from "../config.js";
 
 const EditVehicle = () => {
   const { id } = useParams(); // Get the vehicle ID from the URL parameters
@@ -65,8 +65,37 @@ const EditVehicle = () => {
 
     const { model, year, registration_number } = vehicle;
 
-    // You can add additional validation if necessary
+    // Form validation
+    let errors = {};
 
+    // Validate model (Optional: Check if it's a string and max length 255)
+    if (model && typeof model !== "string") {
+      errors.model = "Model must be a valid string.";
+    } else if (model && model.length > 255) {
+      errors.model = "Model cannot exceed 255 characters.";
+    }
+
+    // Validate year (Optional: Check if it's an integer and 4 digits long)
+    if (year && (!Number.isInteger(Number(year)) || year.length !== 4)) {
+      errors.year = "Year must be a 4-digit integer.";
+    }
+
+    // Validate registration number (Optional: Check if it's a string and max length 20)
+    if (registration_number && typeof registration_number !== "string") {
+      errors.registration_number =
+        "Registration number must be a valid string.";
+    } else if (registration_number && registration_number.length > 20) {
+      errors.registration_number =
+        "Registration number cannot exceed 20 characters.";
+    }
+
+    // Check if there are any validation errors
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+
+    // Proceed with form submission if no validation errors
     try {
       const userToken = localStorage.getItem("userToken");
 
@@ -155,9 +184,7 @@ const EditVehicle = () => {
 
           {/* Display success message if vehicle is updated */}
           {successMessage && (
-            <div className="alert success-alert show">
-              {successMessage}
-            </div>
+            <div className="alert success-alert show">{successMessage}</div>
           )}
 
           <form onSubmit={handleEditVehicle}>
@@ -174,6 +201,9 @@ const EditVehicle = () => {
                 onChange={handleInputChange}
                 required
               />
+              {errors.model && (
+                <div className="text-danger">{errors.model}</div>
+              )}
             </div>
 
             {/* Vehicle Year */}
@@ -189,6 +219,7 @@ const EditVehicle = () => {
                 onChange={handleInputChange}
                 required
               />
+              {errors.year && <div className="text-danger">{errors.year}</div>}
             </div>
 
             {/* Vehicle Registration Number */}
@@ -204,6 +235,9 @@ const EditVehicle = () => {
                 onChange={handleInputChange}
                 required
               />
+              {errors.registration_number && (
+                <div className="text-danger">{errors.registration_number}</div>
+              )}
             </div>
 
             {/* Update Vehicle Button */}

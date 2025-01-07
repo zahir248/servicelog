@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 
-import "./css/AddVehicle.css"; 
-import BASE_API_URL from '../config.js';
+import "./css/AddVehicle.css";
+import BASE_API_URL from "../config.js";
 
 class AddVehicle extends Component {
   state = {
@@ -32,8 +32,37 @@ class AddVehicle extends Component {
 
     const { model, year, registration_number } = this.state;
 
-    // You can add additional validation if necessary
+    // Form validation
+    let errors = {};
 
+    // Validate model (Optional: Check if it's a string and max length 255)
+    if (model && typeof model !== "string") {
+      errors.model = "Model must be a valid string.";
+    } else if (model && model.length > 255) {
+      errors.model = "Model cannot exceed 255 characters.";
+    }
+
+    // Validate year (Optional: Check if it's an integer and 4 digits long)
+    if (year && (!Number.isInteger(Number(year)) || year.length !== 4)) {
+      errors.year = "Year must be a 4-digit integer.";
+    }
+
+    // Validate registration number (Optional: Check if it's a string and max length 20)
+    if (registration_number && typeof registration_number !== "string") {
+      errors.registration_number =
+        "Registration number must be a valid string.";
+    } else if (registration_number && registration_number.length > 20) {
+      errors.registration_number =
+        "Registration number cannot exceed 20 characters.";
+    }
+
+    // Check if there are any validation errors
+    if (Object.keys(errors).length > 0) {
+      this.setState({ errors });
+      return;
+    }
+
+    // Proceed with form submission if no validation errors
     try {
       const userToken = localStorage.getItem("userToken");
 
@@ -137,6 +166,9 @@ class AddVehicle extends Component {
                   onChange={this.handleInputChange}
                   required
                 />
+                {this.state.errors.model && (
+                  <div className="text-danger">{this.state.errors.model}</div>
+                )}
               </div>
 
               {/* Vehicle Year */}
@@ -152,6 +184,9 @@ class AddVehicle extends Component {
                   onChange={this.handleInputChange}
                   required
                 />
+                {this.state.errors.year && (
+                  <div className="text-danger">{this.state.errors.year}</div>
+                )}
               </div>
 
               {/* Vehicle Registration Number */}
@@ -167,6 +202,11 @@ class AddVehicle extends Component {
                   onChange={this.handleInputChange}
                   required
                 />
+                {this.state.errors.registration_number && (
+                  <div className="text-danger">
+                    {this.state.errors.registration_number}
+                  </div>
+                )}
               </div>
 
               {/* Add Vehicle Button */}

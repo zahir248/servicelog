@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link, Navigate } from "react-router-dom";
 
-import "./css/Dashboard.css"; 
-import BASE_API_URL from '../config.js';
+import "./css/Dashboard.css";
+import BASE_API_URL from "../config.js";
 
 class Vehicle extends Component {
   state = {
@@ -115,11 +115,17 @@ class Vehicle extends Component {
   };
 
   closeProfileModal = () => {
-    this.setState({
-      showProfileModal: false,
-      updateSuccess: false,
-      updateError: "",
-    });
+    this.setState(
+      {
+        showProfileModal: false,
+        updateSuccess: false,
+        updateError: "",
+      },
+      () => {
+        // Reload the page after state update
+        window.location.reload();
+      }
+    );
   };
 
   // Add new method to toggle password fields
@@ -146,41 +152,68 @@ class Vehicle extends Component {
 
   handleProfileUpdate = async (e) => {
     e.preventDefault();
+
     const userToken = localStorage.getItem("userToken");
 
-    try {
-      const updateData = {
-        name: this.state.userProfile.user_name,
-        email: this.state.userProfile.user_email,
-      };
+    // Frontend Validation
+    const { user_name, user_email, password, password_confirmation } =
+      this.state.userProfile;
 
-      // Only include password fields if they are shown and password is entered
-      if (this.state.showPasswordFields && this.state.userProfile.password) {
-        if (
-          this.state.userProfile.password !==
-          this.state.userProfile.password_confirmation
-        ) {
-          this.setState({
-            updateError: "Password and confirmation do not match",
-            updateSuccess: false,
-          });
-          return;
-        }
-        updateData.password = this.state.userProfile.password;
-        updateData.password_confirmation =
-          this.state.userProfile.password_confirmation;
-      }
+    if (!user_name || user_name.length > 255) {
+      this.setState({
+        updateError: "Name is required and must not exceed 255 characters.",
+        updateSuccess: false,
+      });
+      return;
+    }
 
-      // Form validation
-      if (!updateData.name || !updateData.email) {
+    if (
+      !user_email ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user_email) ||
+      user_email.length > 255
+    ) {
+      this.setState({
+        updateError:
+          "A valid email address is required and must not exceed 255 characters.",
+        updateSuccess: false,
+      });
+      return;
+    }
+
+    if (this.state.showPasswordFields && password) {
+      if (password.length < 6) {
         this.setState({
-          updateError: "Name and email are required",
+          updateError: "Password must be at least 6 characters long.",
           updateSuccess: false,
         });
         return;
       }
 
-      // Debug line: Log the data being sent
+      if (
+        password &&
+        password_confirmation &&
+        password !== password_confirmation
+      ) {
+        this.setState({
+          updateError: "Password and confirmation do not match.",
+          updateSuccess: false,
+        });
+        return;
+      }
+    }
+
+    try {
+      const updateData = {
+        name: user_name,
+        email: user_email,
+      };
+
+      // Add password fields if applicable
+      if (this.state.showPasswordFields && password) {
+        updateData.password = password;
+        updateData.password_confirmation = password_confirmation;
+      }
+
       console.log("Data being sent to the server:", updateData);
 
       const response = await axios.put(
@@ -198,8 +231,8 @@ class Vehicle extends Component {
         this.setState({
           updateSuccess: true,
           updateError: "",
-          userName: this.state.userProfile.user_name,
-          userEmail: this.state.userProfile.user_email,
+          userName: user_name,
+          userEmail: user_email,
           showPasswordFields: false,
           userProfile: {
             ...this.state.userProfile,
@@ -421,15 +454,8 @@ class Vehicle extends Component {
       return <Navigate to="/service-log" />; // Redirect to login page after logout
     }
 
-    const {
-      vehicles,
-      loading,
-      successMessage,
-      showModal,
-      showLogoutModal,
-      showPasswordFields,
-      userProfile,
-    } = this.state;
+    const { vehicles, loading, successMessage, showModal, showLogoutModal } =
+      this.state;
 
     let vehicleHTML;
 
@@ -631,15 +657,10 @@ class Vehicle extends Component {
                   ></button>
                 </div>
                 <div className="modal-body">
-                  {/* Success and Error Alerts */}
+                  {/* Success Alert */}
                   {this.state.updateSuccess && (
                     <div className="alert alert-success">
                       Profile updated successfully!
-                    </div>
-                  )}
-                  {this.state.updateError && (
-                    <div className="alert alert-danger">
-                      {this.state.updateError}
                     </div>
                   )}
 
@@ -655,9 +676,16 @@ class Vehicle extends Component {
                         className="form-control"
                         id="name"
                         name="user_name" // Map to 'user_name'
-                        value={this.state.userProfile.user_name || ""} // Use user_name from state
+                        value={this.state.userProfile.user_name || ""}
                         onChange={this.handleProfileChange}
                       />
+                      {/* Error for Name */}
+                      {this.state.updateError &&
+                        this.state.updateError.includes("name") && (
+                          <small className="text-danger">
+                            {this.state.updateError}
+                          </small>
+                        )}
                     </div>
 
                     {/* Email Field */}
@@ -670,25 +698,35 @@ class Vehicle extends Component {
                         className="form-control"
                         id="email"
                         name="user_email" // Map to 'user_email'
-                        value={this.state.userProfile.user_email || ""} // Use user_email from state
+                        value={this.state.userProfile.user_email || ""}
                         onChange={this.handleProfileChange}
                       />
+                      {/* Error for Email */}
+                      {this.state.updateError &&
+                        this.state.updateError.includes("email") && (
+                          <small className="text-danger">
+                            {this.state.updateError}
+                          </small>
+                        )}
                     </div>
 
+                    {/* Toggle Password Fields */}
                     <div className="mb-3">
                       <button
                         type="button"
                         className="btn btn-secondary btn-sm"
                         onClick={this.togglePasswordFields}
                       >
-                        {showPasswordFields
+                        {this.state.showPasswordFields
                           ? "Hide Password Fields"
                           : "Change Password"}
                       </button>
                     </div>
 
-                    {showPasswordFields && (
+                    {/* Password Fields */}
+                    {this.state.showPasswordFields && (
                       <>
+                        {/* Password Field */}
                         <div className="mb-3">
                           <label htmlFor="password" className="form-label">
                             New Password
@@ -698,11 +736,21 @@ class Vehicle extends Component {
                             className="form-control"
                             id="password"
                             name="password"
-                            value={userProfile.password || ""}
+                            value={this.state.userProfile.password || ""}
                             onChange={this.handleProfileChange}
                           />
+                          {/* Error for Password */}
+                          {this.state.updateError &&
+                            this.state.updateError.includes(
+                              "Password must"
+                            ) && (
+                              <small className="text-danger">
+                                {this.state.updateError}
+                              </small>
+                            )}
                         </div>
 
+                        {/* Confirm Password Field */}
                         <div className="mb-3">
                           <label
                             htmlFor="password_confirmation"
@@ -715,9 +763,17 @@ class Vehicle extends Component {
                             className="form-control"
                             id="password_confirmation"
                             name="password_confirmation"
-                            value={userProfile.password_confirmation || ""}
+                            value={
+                              this.state.userProfile.password_confirmation || ""
+                            }
                             onChange={this.handleProfileChange}
                           />
+                          {/* Error Message for Password Mismatch */}
+                          {this.state.updateError && (
+                            <div className="text-danger mt-1">
+                              {this.state.updateError}
+                            </div>
+                          )}
                         </div>
                       </>
                     )}

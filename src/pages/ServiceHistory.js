@@ -3,11 +3,12 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 import "./css/ServiceHistory.css";
-import BASE_API_URL from '../config.js';
+import BASE_API_URL from "../config.js";
 
 const ServiceHistory = () => {
   document.title = "Service History"; // Set title on component mount
 
+  const [errors, setErrors] = useState({});
   const [serviceHistory, setServiceHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
@@ -58,14 +59,11 @@ const ServiceHistory = () => {
 
     const fetchServiceData = async () => {
       try {
-        const res = await axios.get(
-          `${BASE_API_URL}/service-history/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
+        const res = await axios.get(`${BASE_API_URL}/service-history/${id}`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
 
         if (res.data.status === 200) {
           setServiceHistory(res.data.history);
@@ -117,9 +115,51 @@ const ServiceHistory = () => {
   const handleUpdateService = async () => {
     const userToken = localStorage.getItem("userToken");
 
-    // Add validation to ensure ID exists
+    // Validation for service update fields
     if (!editService.id) {
       console.error("No service ID found for update");
+      return;
+    }
+
+    // Validate service_date (must be a valid date or null)
+    if (
+      editService.service_date &&
+      isNaN(Date.parse(editService.service_date))
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        service_date: "Please enter a valid date.",
+      }));
+      return;
+    }
+
+    // Validate service_place (optional string with a max length of 255)
+    if (editService.service_place && editService.service_place.length > 255) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        service_place: "Service place must be less than 255 characters.",
+      }));
+      return;
+    }
+
+    // Validate service_cost (optional numeric with a minimum value of 0)
+    if (
+      editService.service_cost &&
+      (isNaN(editService.service_cost) || editService.service_cost < 0)
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        service_cost: "Service cost must be a valid number and at least 0.",
+      }));
+      return;
+    }
+
+    // Validate description (optional string with a max length of 1000)
+    if (editService.description && editService.description.length > 1000) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        description: "Description must be less than 1000 characters.",
+      }));
       return;
     }
 
@@ -199,6 +239,44 @@ const ServiceHistory = () => {
   };
 
   const handleAddService = async () => {
+    const { service_date, service_place, service_cost, description } =
+      newService;
+
+    // Form validation
+    let errors = {};
+
+    // Validate service_date (Nullable: Check if it's a valid date if provided)
+    if (service_date && isNaN(Date.parse(service_date))) {
+      errors.service_date = "Please enter a valid service date.";
+    }
+
+    // Validate service_place (Nullable: Check if it's a string and max length 255)
+    if (service_place && typeof service_place !== "string") {
+      errors.service_place = "Service place must be a valid string.";
+    } else if (service_place && service_place.length > 255) {
+      errors.service_place = "Service place cannot exceed 255 characters.";
+    }
+
+    // Validate service_cost (Nullable: Check if it's a number and at least 0)
+    if (service_cost && (isNaN(service_cost) || service_cost < 0)) {
+      errors.service_cost =
+        "Service cost must be a valid number and at least 0.";
+    }
+
+    // Validate description (Nullable: Check if it's a string and max length 1000)
+    if (description && typeof description !== "string") {
+      errors.description = "Description must be a valid string.";
+    } else if (description && description.length > 1000) {
+      errors.description = "Description cannot exceed 1000 characters.";
+    }
+
+    // Check if there are any validation errors
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+
+    // Proceed with the API request if no validation errors
     const userToken = localStorage.getItem("userToken");
 
     try {
@@ -206,10 +284,10 @@ const ServiceHistory = () => {
         `${BASE_API_URL}/add-service-history/store/${id}`,
         {
           vehicle_id: id,
-          service_date: newService.service_date,
-          service_place: newService.service_place,
-          service_cost: newService.service_cost,
-          description: newService.description,
+          service_date,
+          service_place,
+          service_cost,
+          description,
         },
         {
           headers: {
@@ -222,7 +300,6 @@ const ServiceHistory = () => {
         setSuccessMessage("Service record added successfully.");
         setServiceHistory([...serviceHistory, res.data.history]);
         setShowAddModal(false);
-
         window.location.reload();
       } else {
         setSuccessMessage("Failed to add service record.");
@@ -363,9 +440,12 @@ const ServiceHistory = () => {
                 <button
                   type="button"
                   className="btn-close"
-                  onClick={() => setShowAddModal(false)}
+                  onClick={() => {
+                    setShowAddModal(false);
+                    window.location.reload(); // Refresh the page
+                  }}
                   aria-label="Close"
-                ></button>
+                />
               </div>
               <div className="modal-body">
                 <form>
@@ -384,8 +464,13 @@ const ServiceHistory = () => {
                           service_date: e.target.value,
                         })
                       }
+                      max={new Date().toISOString().split("T")[0]} // Set max date to today
                     />
+                    {errors.service_date && (
+                      <div className="text-danger">{errors.service_date}</div>
+                    )}
                   </div>
+
                   <div className="mb-3">
                     <label htmlFor="service_place" className="form-label">
                       Service Place
@@ -402,6 +487,9 @@ const ServiceHistory = () => {
                         })
                       }
                     />
+                    {errors.service_place && (
+                      <div className="text-danger">{errors.service_place}</div>
+                    )}
                   </div>
                   <div className="mb-3">
                     <label htmlFor="service_cost" className="form-label">
@@ -419,6 +507,9 @@ const ServiceHistory = () => {
                         })
                       }
                     />
+                    {errors.service_cost && (
+                      <div className="text-danger">{errors.service_cost}</div>
+                    )}
                   </div>
                   <div className="mb-3">
                     <label htmlFor="description" className="form-label">
@@ -436,6 +527,9 @@ const ServiceHistory = () => {
                         })
                       }
                     />
+                    {errors.description && (
+                      <div className="text-danger">{errors.description}</div>
+                    )}
                   </div>
                   <button
                     type="button"
@@ -566,9 +660,12 @@ const ServiceHistory = () => {
                 <button
                   type="button"
                   className="btn-close"
-                  onClick={() => setShowEditModal(false)}
+                  onClick={() => {
+                    setShowEditModal(false); // Close the modal
+                    window.location.reload(); // Refresh the page
+                  }}
                   aria-label="Close"
-                ></button>
+                />
               </div>
               <div className="modal-body">
                 <form>
@@ -588,6 +685,9 @@ const ServiceHistory = () => {
                         })
                       }
                     />
+                    {errors.service_date && (
+                      <div className="text-danger">{errors.service_date}</div>
+                    )}
                   </div>
                   <div className="mb-3">
                     <label htmlFor="edit_service_place" className="form-label">
@@ -605,6 +705,9 @@ const ServiceHistory = () => {
                         })
                       }
                     />
+                    {errors.service_place && (
+                      <div className="text-danger">{errors.service_place}</div>
+                    )}
                   </div>
                   <div className="mb-3">
                     <label htmlFor="edit_service_cost" className="form-label">
@@ -622,6 +725,9 @@ const ServiceHistory = () => {
                         })
                       }
                     />
+                    {errors.service_cost && (
+                      <div className="text-danger">{errors.service_cost}</div>
+                    )}
                   </div>
                   <div className="mb-3">
                     <label htmlFor="edit_description" className="form-label">
@@ -639,6 +745,9 @@ const ServiceHistory = () => {
                         })
                       }
                     />
+                    {errors.description && (
+                      <div className="text-danger">{errors.description}</div>
+                    )}
                   </div>
                   <button
                     type="button"
