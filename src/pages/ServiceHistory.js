@@ -17,6 +17,7 @@ const ServiceHistory = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [vehicle, setVehicle] = useState(null);
+  const [isFloatingMenuOpen, setIsFloatingMenuOpen] = useState(false);
   const [newService, setNewService] = useState({
     service_date: "",
     service_place: "",
@@ -31,6 +32,10 @@ const ServiceHistory = () => {
     service_cost: "",
     description: "",
   });
+
+  const toggleFloatingMenu = () => {
+    setIsFloatingMenuOpen(!isFloatingMenuOpen);
+  };
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -407,21 +412,39 @@ const ServiceHistory = () => {
         </main>
       </div>
 
-      <button
-        onClick={() => setShowAddModal(true)}
-        className="btn btn-primary btn-floating"
-        title="Add New Service Record"
-      >
-        <i className="bi bi-plus"></i>
-      </button>
+      <div className={`floating-menu ${isFloatingMenuOpen ? "open" : ""}`}>
+        <button
+          className="btn btn-primary menu-trigger"
+          onClick={toggleFloatingMenu}
+          title="Menu"
+        >
+          <i className={`bi ${isFloatingMenuOpen ? "bi-x" : "bi-list"}`}></i>
+        </button>
 
-      <button
-        onClick={handleBack}
-        className="btn btn-secondary btn-floating logout-btn"
-        title="Back to Dashboard"
-      >
-        <i className="bi bi-arrow-left text-white"></i>
-      </button>
+        <div className="floating-menu-items">
+          <button
+            onClick={() => {
+              setShowAddModal(true);
+              setIsFloatingMenuOpen(false);
+            }}
+            className="btn btn-primary menu-item"
+            title="Add New Service Record"
+          >
+            <i className="bi bi-plus"></i>
+          </button>
+
+          <button
+            onClick={() => {
+              handleBack();
+              setIsFloatingMenuOpen(false);
+            }}
+            className="btn btn-danger menu-item"
+            title="Back to Dashboard"
+          >
+            <i className="bi bi-arrow-left text-white"></i>
+          </button>
+        </div>
+      </div>
 
       {showAddModal && (
         <div

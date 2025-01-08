@@ -41,27 +41,51 @@ body {
   color: white;
 }
 
-/* Floating Add Vehicle Button */
-.btn-floating {
+.floating-menu {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  font-size: 30px;
+  bottom: 2rem;
+  right: 2rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
   z-index: 1000;
-  background-color: #007bff; /* Optional: Adds color to the button */
-  color: white; /* Ensures the icon color is white */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
-  transition: background-color 0.3s ease-in-out; /* Smooth hover effect */
 }
 
-.btn-floating:hover {
-  background-color: #0056b3; /* Changes color on hover */
+.menu-trigger {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.floating-menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  transform: translateY(10px);
+}
+
+.floating-menu.open .floating-menu-items {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.menu-item {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Floating Logout Button (same position as Add Vehicle) */
