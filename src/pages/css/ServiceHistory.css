@@ -198,6 +198,10 @@ table .btn-warning:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.modal-header {
+  padding-top: 0;
+}
+
 /* Button Styling for Edit and Delete in Action Column */
 table .btn-edit,
 table .btn-delete {
