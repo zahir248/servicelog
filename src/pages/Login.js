@@ -18,6 +18,7 @@ class Login extends Component {
     successMessage: "", // To store success messages
     isAuthenticated: false, // To track if user is logged in
     redirect: false, // To manage redirection after showing the success message
+    showInfoModal: false, // To toggle the info modal
   };
 
   // Handle input change for email and password fields
@@ -68,6 +69,13 @@ class Login extends Component {
         });
       }
     }
+  };
+
+  // Toggle the info modal
+  toggleInfoModal = () => {
+    this.setState((prevState) => ({
+      showInfoModal: !prevState.showInfoModal,
+    }));
   };
 
   render() {
@@ -137,6 +145,141 @@ class Login extends Component {
             </p>
           </div>
         </div>
+
+        <button
+          className="floating-info-btn"
+          type="button"
+          onClick={() => this.setState({ showInfoModal: true })}
+        >
+          ℹ️
+        </button>
+
+        {this.state.showInfoModal && (
+          <div className="modal-overlay">
+            <div className="login-card-2">
+              <div className="login-card-header">
+                <h4>Vehicle Service Record Management System</h4>
+                <button
+                  className="close-btn"
+                  onClick={() => this.setState({ showInfoModal: false })}
+                >
+                  &times;
+                </button>
+              </div>
+              <div className="login-card-body-2">
+                <div className="modal-content">
+                  <h5>Overview</h5>
+                  <p>
+                    This system helps you manage and track your vehicles'
+                    service history digitally. You can store information about
+                    your vehicles and maintain detailed records of all service
+                    work performed.
+                  </p>
+                  <h5>Key Features</h5>
+                  <ul>
+                    <li>
+                      <strong>Account Management</strong>
+                      <ul>
+                        <li>
+                          Create a new account with your name, email, and
+                          password
+                        </li>
+                        <li>
+                          Log in securely to access your personal dashboard
+                        </li>
+                        <li>
+                          Update your profile information and password when
+                          needed
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <strong>Vehicle Management</strong>
+                      <ul>
+                        <li>Add multiple vehicles to your account</li>
+                        <li>
+                          For each vehicle, you can record:
+                          <ul>
+                            <li>Model</li>
+                            <li>Year</li>
+                            <li>Registration number</li>
+                          </ul>
+                        </li>
+                        <li>View a list of all your registered vehicles</li>
+                        <li>Update vehicle information as needed</li>
+                        <li>Remove vehicles from your records</li>
+                        <li>Export vehicle service history as PDF reports</li>
+                      </ul>
+                    </li>
+                    <li>
+                      <strong>Service Record Management</strong>
+                      <ul>
+                        <li>
+                          Add service records for each vehicle, including:
+                          <ul>
+                            <li>Service date</li>
+                            <li>Service location/workshop</li>
+                            <li>Service cost</li>
+                            <li>Detailed description of work performed</li>
+                          </ul>
+                        </li>
+                        <li>View complete service history for each vehicle</li>
+                        <li>Track total service costs per vehicle</li>
+                        <li>View number of service records per vehicle</li>
+                        <li>Update or modify service record details</li>
+                        <li>Delete service records if needed</li>
+                      </ul>
+                    </li>
+                    <li>
+                      <strong>Reports and Analytics</strong>
+                      <ul>
+                        <li>View total service costs for each vehicle</li>
+                        <li>Access chronological service history</li>
+                        <li>
+                          Generate and download PDF reports containing:
+                          <ul>
+                            <li>Vehicle details</li>
+                            <li>Complete service history</li>
+                            <li>Total maintenance costs</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <strong>Data Security</strong>
+                      <ul>
+                        <li>
+                          All data is protected behind secure authentication
+                        </li>
+                        <li>
+                          Each user can only access their own vehicles and
+                          service records
+                        </li>
+                        <li>Secure password storage with encryption</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <h5>Benefits</h5>
+                  <ul>
+                    <li>Keep all your vehicle service records in one place</li>
+                    <li>Track maintenance costs over time</li>
+                    <li>Access your service history anywhere</li>
+                    <li>Generate professional reports for your records</li>
+                    <li>Make informed decisions about vehicle maintenance</li>
+                    <li>Never lose paper service records again</li>
+                  </ul>
+                  <h5>Getting Started</h5>
+                  <ol>
+                    <li>Register for an account using your email</li>
+                    <li>Add your first vehicle to the system</li>
+                    <li>Start recording service activities</li>
+                    <li>Access your records anytime through the dashboard</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
