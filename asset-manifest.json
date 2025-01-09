@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/servicelog/static/css/main.0bf58334.css",
+    "main.js": "/servicelog/static/js/main.3ff26df4.js",
+    "static/js/488.1f989dac.chunk.js": "/servicelog/static/js/488.1f989dac.chunk.js",
+    "index.html": "/servicelog/index.html",
+    "main.0bf58334.css.map": "/servicelog/static/css/main.0bf58334.css.map",
+    "main.3ff26df4.js.map": "/servicelog/static/js/main.3ff26df4.js.map",
+    "488.1f989dac.chunk.js.map": "/servicelog/static/js/488.1f989dac.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0bf58334.css",
+    "static/js/main.3ff26df4.js"
+  ]
+}
