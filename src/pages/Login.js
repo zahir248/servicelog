@@ -152,12 +152,10 @@ class Login extends Component {
         </div>
 
         <button
-          className="floating-info-btn"
+          className="floating-info-btn bi bi-info fs-2"
           type="button"
           onClick={() => this.setState({ showInfoModal: true })}
-        >
-          ℹ️
-        </button>
+        ></button>
 
         {this.state.showInfoModal && (
           <div className="modal-overlay">
