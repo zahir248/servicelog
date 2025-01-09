@@ -9,6 +9,11 @@ import BASE_API_URL from "../config.js";
 class Login extends Component {
   componentDidMount() {
     document.title = "Login";
+    // Set demo credentials when component mounts
+    this.setState({
+      email: "demo@example.com",
+      password: "demo123",
+    });
   }
 
   state = {
