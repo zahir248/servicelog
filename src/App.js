@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/service-log" element={<Login />} />
+        <Route exact path="/servicelog" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
 
         {/* Protected routes */}

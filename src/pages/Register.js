@@ -87,7 +87,7 @@ function Register() {
 
         // Redirect after a delay
         setTimeout(() => {
-          navigate("/service-log");
+          navigate("/servicelog");
         }, 2000);
       } else {
         // Handle server-side validation errors
@@ -173,7 +173,7 @@ function Register() {
         </form>
         <div className="login-redirect">
           <p>
-            Already have an account? <a href="/service-log">Login here</a>
+            Already have an account? <a href="/servicelog">Login here</a>
           </p>
         </div>
       </div>
