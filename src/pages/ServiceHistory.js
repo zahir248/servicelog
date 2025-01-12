@@ -169,7 +169,7 @@ const ServiceHistory = () => {
     }
 
     try {
-      console.log("Updating service with ID:", editService.id);
+      // console.log("Updating service with ID:", editService.id);
 
       const res = await axios.put(
         `${BASE_API_URL}/service-history/${editService.id}`,
@@ -356,7 +356,7 @@ const ServiceHistory = () => {
   const serviceHistoryHTML = loading ? (
     <div className="loading-container">
       <img
-        src="/assets/images/loading.gif" // Path to your loading image or spinner
+        src="/servicelog/assets/images/loading.gif" // Path to your loading image or spinner
         alt="Loading..."
         className="loading-spinner"
       />
@@ -364,7 +364,7 @@ const ServiceHistory = () => {
   ) : serviceHistory.length === 0 ? (
     <div className="emptydata-container-custom">
       <img
-        src="/assets/images/emptydata.png" // Path to your loading image or spinner
+        src="/servicelog/assets/images/emptydata.png" // Path to your loading image or spinner
         alt="Loading..."
         className="emptydata-spinner-custom"
       />

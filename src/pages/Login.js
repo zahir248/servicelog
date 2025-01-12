@@ -93,7 +93,7 @@ class Login extends Component {
       <div className="login-container">
         <div className="login-card">
           <div className="login-card-header">
-            <h4>Login</h4>
+            <h4>Login to SERVIS</h4>
           </div>
           <div className="login-card-body">
             <form onSubmit={this.handleLogin}>
@@ -158,8 +158,8 @@ class Login extends Component {
         ></button>
 
         {this.state.showInfoModal && (
-          <div className="modal-overlay">
-            <div className="login-card-2">
+          <div className="vsm-modal-overlay">
+            <div className="vsm-login-card">
               <div className="login-card-header">
                 <h4>Vehicle Service Record Management System</h4>
                 <button
@@ -169,16 +169,16 @@ class Login extends Component {
                   &times;
                 </button>
               </div>
-              <div className="login-card-body-2">
-                <div className="modal-content">
+              <div className="vsm-login-card-body">
+                <div className="vsm-modal-content">
                   <h5>Overview</h5>
                   <p>
-                    This system helps you manage and track your vehicles'
-                    service history digitally. You can store information about
-                    your vehicles and maintain detailed records of all service
-                    work performed.
+                    Welcome to <strong>SERVIS</strong> – A system that helps you
+                    manage and track your vehicles' service history digitally.
+                    You can store information about your vehicles and maintain
+                    detailed records of all service work performed.
                   </p>
-                  <h5>Key Features</h5>
+                  <h5 style={{ marginTop: "40px" }}>Key Features</h5>
                   <ul>
                     <li>
                       <strong>Account Management</strong>
@@ -262,7 +262,7 @@ class Login extends Component {
                       </ul>
                     </li>
                   </ul>
-                  <h5>Benefits</h5>
+                  <h5 style={{ marginTop: "40px" }}>Benefits</h5>
                   <ul>
                     <li>Keep all your vehicle service records in one place</li>
                     <li>Track maintenance costs over time</li>
@@ -271,7 +271,7 @@ class Login extends Component {
                     <li>Make informed decisions about vehicle maintenance</li>
                     <li>Never lose paper service records again</li>
                   </ul>
-                  <h5>Getting Started</h5>
+                  <h5 style={{ marginTop: "40px" }}>Getting Started</h5>
                   <ol>
                     <li>Register for an account using your email</li>
                     <li>Add your first vehicle to the system</li>

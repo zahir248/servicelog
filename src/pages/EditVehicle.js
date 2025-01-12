@@ -150,7 +150,7 @@ const EditVehicle = () => {
     return (
       <div className="loading-container">
         <img
-          src="/assets/images/loading.gif" // Path to your loading image or spinner
+          src="/servicelog/assets/images/loading.gif" // Path to your loading image or spinner
           alt="Loading..."
           className="loading-spinner"
         />

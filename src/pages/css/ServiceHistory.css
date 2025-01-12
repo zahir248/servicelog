@@ -13,16 +13,16 @@ body {
 }
 
 .emptydata-container-custom {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full viewport height */
-  }
-  
-  .emptydata-spinner-custom {
-    width: 400px;
-    height: 400px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+.emptydata-spinner-custom {
+  width: 300px;
+  height: 300px;
+}
 
 .alert {
   position: fixed;
@@ -288,7 +288,7 @@ table .btn-delete:hover {
   }
 
   .emptydata-spinner-custom {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
   }
 }

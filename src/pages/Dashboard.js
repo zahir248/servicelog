@@ -118,7 +118,7 @@ class Vehicle extends Component {
       });
     } else {
       // Handle the case when user data isn't available
-      console.log("User data is not available.");
+      // console.log("User data is not available.");
     }
   };
 
@@ -222,7 +222,7 @@ class Vehicle extends Component {
         updateData.password_confirmation = password_confirmation;
       }
 
-      console.log("Data being sent to the server:", updateData);
+      // console.log("Data being sent to the server:", updateData);
 
       const response = await axios.put(
         `${BASE_API_URL}/user/profile/update`,
@@ -472,7 +472,7 @@ class Vehicle extends Component {
       vehicleHTML = (
         <div className="loading-container">
           <img
-            src="/assets/images/loading.gif" // Path to your loading image or spinner
+            src="/servicelog/assets/images/loading.gif" // Path to your loading image or spinner
             alt="Loading..."
             className="loading-spinner"
           />
@@ -482,7 +482,7 @@ class Vehicle extends Component {
       vehicleHTML = (
         <div className="emptydata-container-custom">
           <img
-            src="/assets/images/emptydata.png" // Path to your loading image or spinner
+            src="/servicelog/assets/images/emptydata.png" // Path to your loading image or spinner
             alt="Loading..."
             className="emptydata-spinner-custom"
           />
@@ -552,7 +552,7 @@ class Vehicle extends Component {
           <main role="main" className="col-12 px-4">
             <h4 className="text-center text-white">
               {this.state.vehicles && this.state.vehicles.length > 0
-                ? `${this.state.userName}'s vehicles`
+                ? `${this.state.userName}'s Vehicles`
                 : ""}
             </h4>
 

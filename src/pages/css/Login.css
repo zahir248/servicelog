@@ -34,7 +34,7 @@ body {
 }
 
 /* Modal Overlay */
-.modal-overlay {
+.vsm-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -48,7 +48,7 @@ body {
 }
 
 /* Larger Modal Structure */
-.login-card-2 {
+.vsm-login-card {
   background: white;
   border-radius: 8px;
   width: 90%;
@@ -58,7 +58,7 @@ body {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-.login-card-header {
+.vsm-login-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,7 +77,7 @@ body {
   cursor: pointer;
 }
 
-.login-card-body-2 {
+.vsm-login-card-body {
   padding: 20px 0; /* Increased padding */
   font-size: 18px; /* Larger text size */
   line-height: 1.7; /* Increased line height for readability */
@@ -107,7 +107,7 @@ body {
 }
 
 /* Modal Content Styles */
-.modal-content {
+.vsm-modal-content {
   max-height: 60vh; /* Limit height to avoid overflowing the screen */
   overflow-y: auto; /* Enable scrolling for large content */
   padding-right: 10px; /* Add space for scrollbar */
@@ -131,7 +131,7 @@ ul ul {
 
 /* Header */
 h5 {
-  margin-top: 20px;
+  margin-top: 25px;
   font-size: 20px;
   font-weight: bold;
 }

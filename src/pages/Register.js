@@ -70,7 +70,7 @@ function Register() {
     }
 
     try {
-      console.log("Form submitted");
+      // console.log("Form submitted");
 
       // Clear previous errors and success messages
       setError("");
@@ -79,7 +79,7 @@ function Register() {
       // API call to register
       const response = await axios.post(`${BASE_API_URL}/register`, formData);
 
-      console.log("API Response:", response); // Log the full response
+      // console.log("API Response:", response); // Log the full response
 
       if (response.status === 200 && response.data.status === 200) {
         // Registration successful

@@ -16,8 +16,8 @@
 }
 
 .emptydata-spinner-custom {
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
 }
 
 .dropdown-item:hover {
@@ -342,7 +342,7 @@ body {
   }
 
   .emptydata-spinner-custom {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
   }
 }

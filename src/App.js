@@ -8,7 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import AddVehicle from "./pages/AddVehicle";
 import EditVehicle from "./pages/EditVehicle";
 import ServiceHistory from "./pages/ServiceHistory";
-import PrivateRoute from "./pages/PrivateRoute"; 
+import PrivateRoute from "./pages/PrivateRoute";
 
 function App() {
   return (
