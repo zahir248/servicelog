@@ -131,7 +131,7 @@ class Vehicle extends Component {
       },
       () => {
         // Reload the page after state update
-        window.location.reload();
+        window.location.href = "/dashboard";
       }
     );
   };
@@ -251,7 +251,7 @@ class Vehicle extends Component {
 
         setTimeout(() => {
           this.closeProfileModal();
-          window.location.reload(); // Refresh to update the display name
+          window.location.href = "/dashboard";
         }, 1500);
       }
     } catch (error) {
