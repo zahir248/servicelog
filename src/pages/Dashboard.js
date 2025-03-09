@@ -131,7 +131,7 @@ class Vehicle extends Component {
       },
       () => {
         // Reload the page after state update
-        window.location.href = "/dashboard";
+        window.location.pathname = "/dashboard"; // More reliable than <Navigate> inside class components
       }
     );
   };
@@ -251,7 +251,7 @@ class Vehicle extends Component {
 
         setTimeout(() => {
           this.closeProfileModal();
-          window.location.href = "/dashboard";
+          window.location.pathname = "/dashboard";
         }, 1500);
       }
     } catch (error) {
