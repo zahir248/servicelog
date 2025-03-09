@@ -131,7 +131,7 @@ class Vehicle extends Component {
       },
       () => {
         // Reload the page after state update
-        return <Navigate to="/dashboard" replace />;
+        return <Navigate to="/dashboard"/>;
       }
     );
   };
@@ -251,7 +251,7 @@ class Vehicle extends Component {
 
         setTimeout(() => {
           this.closeProfileModal();
-          return <Navigate to="/dashboard" replace />;
+          return <Navigate to="/dashboard"/>;
         }, 1500);
       }
     } catch (error) {
@@ -319,7 +319,7 @@ class Vehicle extends Component {
           showModal: false, // Close the modal after successful deletion
         });
 
-        window.location.reload(); // Refresh the page
+        return <Navigate to="/dashboard"/>;
       }
     } catch (error) {
       console.error("Error deleting vehicle:", error);

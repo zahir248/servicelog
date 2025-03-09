@@ -236,7 +236,7 @@ const ServiceHistory = () => {
         );
         setSuccessMessage("Service record deleted successfully.");
         setShowDeleteModal(false);
-        window.location.reload(); // Refresh the page
+        navigate(`/service-history/${selectedService.vehicle_id}`);
       } catch (error) {
         console.error("Error deleting service record:", error);
       }
@@ -305,7 +305,8 @@ const ServiceHistory = () => {
         setSuccessMessage("Service record added successfully.");
         setServiceHistory([...serviceHistory, res.data.history]);
         setShowAddModal(false);
-        window.location.reload();
+        // navigate("/dashboard", { replace: true });
+        navigate(`/service-history/${id}`);
       } else {
         setSuccessMessage("Failed to add service record.");
       }
@@ -465,7 +466,7 @@ const ServiceHistory = () => {
                   className="btn-close"
                   onClick={() => {
                     setShowAddModal(false);
-                    window.location.reload(); // Refresh the page
+                    navigate("/dashboard", { replace: true });
                   }}
                   aria-label="Close"
                 />
@@ -685,7 +686,7 @@ const ServiceHistory = () => {
                   className="btn-close"
                   onClick={() => {
                     setShowEditModal(false); // Close the modal
-                    window.location.reload(); // Refresh the page
+                    navigate("/dashboard", { replace: true });
                   }}
                   aria-label="Close"
                 />
