@@ -305,8 +305,8 @@ const ServiceHistory = () => {
         setSuccessMessage("Service record added successfully.");
         setServiceHistory([...serviceHistory, res.data.history]);
         setShowAddModal(false);
-        // navigate("/dashboard", { replace: true });
-        navigate(`/service-history/${id}`);
+        navigate("/dashboard", { replace: true });
+        // navigate(`/service-history/${id}`);
       } else {
         setSuccessMessage("Failed to add service record.");
       }
